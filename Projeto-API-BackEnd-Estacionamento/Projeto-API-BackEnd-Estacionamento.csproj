@@ -16,7 +16,6 @@
     <Folder Include="Estacionamento.Application\DTOs\" />
     <Folder Include="Estacionamento.Application\Interfaces\" />
     <Folder Include="Estacionamento.Application\Services\" />
-    <Folder Include="Estacionamento.Core\Models\" />
     <Folder Include="Estacionamento.Infrastructure\Data\" />
     <Folder Include="Estacionamento.Infrastructure\Repository\Interface\" />
   </ItemGroup>
