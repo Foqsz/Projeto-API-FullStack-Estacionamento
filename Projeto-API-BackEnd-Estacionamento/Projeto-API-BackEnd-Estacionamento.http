@@ -1,0 +1,6 @@
+@Projeto_API_BackEnd_Estacionamento_HostAddress = http://localhost:5089
+
+GET {{Projeto_API_BackEnd_Estacionamento_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
