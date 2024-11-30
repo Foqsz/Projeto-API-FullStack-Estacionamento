@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs.Mappings;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Services;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Data;
@@ -24,6 +25,10 @@ builder.Services.AddScoped<IVeiculosRepository, VeiculosRepository>();
 builder.Services.AddScoped<IEmpresasService, EmpresasService>();
 builder.Services.AddScoped<IVeiculosService, VeiculosService>();
 builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
+
+builder.Services.AddAutoMapper(typeof(EmpresaDTOMappingProfile));
+builder.Services.AddAutoMapper(typeof(VeiculosDTOMappingProfile));
+builder.Services.AddAutoMapper(typeof(MovimentacaoEstacionamentoDTOMappingProfile));
 
 
 var app = builder.Build();
