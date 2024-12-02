@@ -8,16 +8,20 @@ using Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repositor
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Adicionar serviços ao contêiner
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
+// Configuração do Swagger
+builder.Services.AddEndpointsApiExplorer(); // Para explorar os endpoints na documentação
+builder.Services.AddSwaggerGen(); // Gera a documentação Swagger
+
+// Configuração da conexão com o banco de dados
 var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<EstacionamentoDbContext>(options =>
+    options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 
-builder.Services.AddDbContext<EstacionamentoDbContext>(options => options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
-
+// Registrando os serviços de repositório e serviço
 builder.Services.AddScoped<IEmpresasRepository, EmpresasRepository>();
 builder.Services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
 builder.Services.AddScoped<IVeiculosRepository, VeiculosRepository>();
@@ -26,23 +30,25 @@ builder.Services.AddScoped<IEmpresasService, EmpresasService>();
 builder.Services.AddScoped<IVeiculosService, VeiculosService>();
 builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
 
+// Configuração do AutoMapper
 builder.Services.AddAutoMapper(typeof(EmpresaDTOMappingProfile));
 builder.Services.AddAutoMapper(typeof(VeiculosDTOMappingProfile));
 builder.Services.AddAutoMapper(typeof(MovimentacaoEstacionamentoDTOMappingProfile));
 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuração do pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger(); // Ativa o Swagger
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+    });
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
