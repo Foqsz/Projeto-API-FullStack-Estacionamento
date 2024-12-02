@@ -9,10 +9,10 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Services
 public class EmpresasService : IEmpresasService
 {
     private readonly IEmpresasRepository _empresasRepository;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
     private readonly ILogger _logger;
 
-    public EmpresasService(IEmpresasRepository empresasRepository, Mapper mapper, ILogger<EmpresasService> logger)
+    public EmpresasService(IEmpresasRepository empresasRepository, IMapper mapper, ILogger<EmpresasService> logger)
     {
         _empresasRepository = empresasRepository;
         _mapper = mapper;
