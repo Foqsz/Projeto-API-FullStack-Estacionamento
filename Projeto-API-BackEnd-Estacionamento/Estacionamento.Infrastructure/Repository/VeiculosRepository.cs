@@ -30,7 +30,7 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repos
         {
             var checkVeiculoExiste = await _context.Veiculos.AnyAsync(v => v.Placa == veiculo.Placa);
 
-            if (checkVeiculoExiste != null)
+            if (checkVeiculoExiste)
             {
                 _logger.LogError("CREATE VEICULO: VEICULO já existente no banco de dados. ");
                 throw new InvalidOperationException($"VEICULO de placa {veiculo.Placa} já existente no banco de dados.");

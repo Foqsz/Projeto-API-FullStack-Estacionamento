@@ -31,7 +31,7 @@ public class EmpresasRepository : IEmpresasRepository
     {
         var checkEmpresaExiste = await _context.Empresa.AnyAsync(e => e.CNPJ == empresa.CNPJ);
 
-        if (checkEmpresaExiste != null)
+        if (checkEmpresaExiste)
         {
             _logger.LogError("CREATE: Empresa já existente no banco de dados. ");
             throw new InvalidOperationException("Empresa já existente no banco de dados.");
