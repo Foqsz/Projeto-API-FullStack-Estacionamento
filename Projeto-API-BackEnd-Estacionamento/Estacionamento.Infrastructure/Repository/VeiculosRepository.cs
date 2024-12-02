@@ -41,8 +41,14 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repos
             return veiculo;
         }
 
-        public async Task<Veiculos> UpdateVeiculo(Veiculos veiculo)
+        public async Task<Veiculos> UpdateVeiculo(int id, Veiculos veiculo)
         {
+            if (id != veiculo.Id)
+            {
+                _logger.LogError("UPDATE: O ID da URL não corresponde ao ID da empresa informada no corpo da requisição.");
+                throw new InvalidOperationException("O ID da URL deve ser o mesmo que o ID da empresa.");
+            }
+
             var veiculoUpdate = await _context.Veiculos.FindAsync(veiculo.Id);
 
             if (veiculoUpdate == null)
@@ -58,6 +64,8 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repos
                 _logger.LogError("UPDATE VEICULO: Já existe um veiculo com a Placa informada.");
                 throw new InvalidOperationException("Já existe um veiculo com essa Placa.");
             }
+
+            _context.Entry(veiculoUpdate).State = EntityState.Detached;
 
             _context.Veiculos.Update(veiculo);
             await _context.SaveChangesAsync();

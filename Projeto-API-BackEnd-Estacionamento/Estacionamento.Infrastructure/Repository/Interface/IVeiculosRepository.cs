@@ -6,7 +6,7 @@ public interface IVeiculosRepository
 {
     Task<IEnumerable<Veiculos>> GetAllVeiculos();
     Task<Veiculos> GetVeiculoId(int id);
-    Task<Veiculos> UpdateVeiculo(Veiculos veiculo);
+    Task<Veiculos> UpdateVeiculo(int id, Veiculos veiculo);
     Task<Veiculos> CreateVeiculo(Veiculos veiculo);
     Task<bool> DeleteVeiculo(int id);
 }

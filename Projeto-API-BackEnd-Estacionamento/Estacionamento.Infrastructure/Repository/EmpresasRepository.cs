@@ -42,8 +42,14 @@ public class EmpresasRepository : IEmpresasRepository
         return empresa;
 
     }
-    public async Task<Empresa> UpdateEmpresa(Empresa empresa)
+    public async Task<Empresa> UpdateEmpresa(int id, Empresa empresa)
     {
+        if (id != empresa.Id)
+        {
+            _logger.LogError("UPDATE: O ID da URL não corresponde ao ID da empresa informada no corpo da requisição.");
+            throw new InvalidOperationException("O ID da URL deve ser o mesmo que o ID da empresa.");
+        }
+
         var empresaExistente = await _context.Empresa.FindAsync(empresa.Id);
 
         if (empresaExistente == null)
@@ -60,11 +66,16 @@ public class EmpresasRepository : IEmpresasRepository
             throw new InvalidOperationException("Já existe uma empresa com este CNPJ.");
         }
 
+        _context.Entry(empresaExistente).State = EntityState.Detached;
+
+        // Atualiza a entidade
         _context.Empresa.Update(empresa);
         await _context.SaveChangesAsync();
 
         return empresa;
     }
+
+
 
     public async Task<bool> DeleteEmpresa(int id)
     {
