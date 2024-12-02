@@ -33,7 +33,7 @@ public class EmpresasRepository : IEmpresasRepository
 
         if (checkEmpresaExiste != null)
         {
-            _logger.LogError("CREATE: Empresa já existente no banco de dados. ")
+            _logger.LogError("CREATE: Empresa já existente no banco de dados. ");
             throw new InvalidOperationException("Empresa já existente no banco de dados.");
         }
 
