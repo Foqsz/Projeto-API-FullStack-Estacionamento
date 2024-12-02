@@ -5,7 +5,7 @@ public interface IEmpresasService
 {
     Task<IEnumerable<EmpresaDTO>> GetAllEmpresasService();
     Task<EmpresaDTO> GetEmpresaIdService(int id);
-    Task<EmpresaDTO> UpdateEmpresaService(EmpresaDTO empresa);
+    Task<EmpresaDTO> UpdateEmpresaService(int id, EmpresaDTO empresa);
     Task<EmpresaDTO> CreateEmpresaService(EmpresaDTO empresa);
     Task<bool> DeleteEmpresaService(int id);
 }

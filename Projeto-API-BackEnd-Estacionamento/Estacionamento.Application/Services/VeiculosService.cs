@@ -53,11 +53,11 @@ public class VeiculosService : IVeiculosService
         return _mapper.Map<VeiculosDTO>(newVeiculo);
     }
 
-    public async Task<VeiculosDTO> UpdateVeiculo(VeiculosDTO veiculo)
+    public async Task<VeiculosDTO> UpdateVeiculo(int id, VeiculosDTO veiculo)
     {
         var veiculoMap = _mapper.Map<VeiculosDTO, Veiculos>(veiculo);
 
-        var updateVeiculo = await _veiculosRepository.UpdateVeiculo(veiculoMap);
+        var updateVeiculo = await _veiculosRepository.UpdateVeiculo(id,veiculoMap);
 
         return _mapper.Map<VeiculosDTO>(updateVeiculo);
     }

@@ -54,7 +54,7 @@ public class EmpresasService : IEmpresasService
 
     }
 
-    public async Task<EmpresaDTO> UpdateEmpresaService(EmpresaDTO empresa)
+    public async Task<EmpresaDTO> UpdateEmpresaService(int id, EmpresaDTO empresa)
     {
         var empresaMapper = _mapper.Map<EmpresaDTO, Empresa>(empresa);
 
@@ -64,7 +64,7 @@ public class EmpresasService : IEmpresasService
             throw new ArgumentException("Não foi possível fazer update nessa empresa.");
         }
 
-        var updateEmpresa = await _empresasRepository.UpdateEmpresa(empresaMapper);
+        var updateEmpresa = await _empresasRepository.UpdateEmpresa(id, empresaMapper);
 
         return _mapper.Map<Empresa, EmpresaDTO>(updateEmpresa);
     }
