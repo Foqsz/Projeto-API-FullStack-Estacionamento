@@ -72,9 +72,9 @@ public class VeiculosController : ControllerBase
     [HttpPut("AtualizarVeiculo/{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<VeiculosDTO>> PutVeiculo(VeiculosDTO veiculo)
+    public async Task<ActionResult<VeiculosDTO>> PutVeiculo(int id, VeiculosDTO veiculo)
     {
-        var putVeiculo = await _veiculosService.UpdateVeiculo(veiculo);
+        var putVeiculo = await _veiculosService.UpdateVeiculo(id,veiculo);
 
         if (putVeiculo == null)
         {

@@ -75,9 +75,9 @@ public class EmpresasController : ControllerBase
     [HttpPut("EditarEmpresa/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<EmpresaDTO>> PutEmpresa(EmpresaDTO empresa)
+    public async Task<ActionResult<EmpresaDTO>> PutEmpresa(int id, EmpresaDTO empresa)
     {
-        var updateEmpresa = await _empresasService.UpdateEmpresaService(empresa);
+        var updateEmpresa = await _empresasService.UpdateEmpresaService(id, empresa);
 
         if (updateEmpresa == null)
         {
