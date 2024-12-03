@@ -4,5 +4,8 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repos
 
 public interface IMovimentacaoRepository
 {
-
+    Task<MovimentacaoEstacionamento> RegistrarEntrada(string placa, string TipoVeiculo);
+    Task<MovimentacaoEstacionamento> RegistrarSaida(int id, string placa);
+    Task<bool> VagaDisponivel(string tipoVeiculo);
+    Task<IEnumerable<MovimentacaoEstacionamento>> GetAllEstacionados();
 }
