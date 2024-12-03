@@ -3,16 +3,12 @@
 namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.Core.Models;
 
 public class MovimentacaoEstacionamento
-{
+{  
     public int Id { get; set; }
-    [Required(ErrorMessage = "O ID do veículo é obrigatório.")]
-    public int VeiculoId { get; set; }
-    [Required(ErrorMessage = "O tipo da vaga é obrigatório.")]
-    public string TipoVaga { get; set; } = string.Empty;
-    [Required(ErrorMessage = "A data de entrada é obrigatória.")]
-    public DateTime DataEntrada { get; set; }   
-    public DateTime? DataSaida { get; set; }
-    [Required(ErrorMessage = "O ID do estabelecimento é obrigatório.")]
-    public int EstabelecimentoId { get; set; }  
+    [Required(ErrorMessage = "A Placa do veículo é obrigatória.")]
+    public string PlacaVeiculo { get; set; } // Relaciona com o veículo 
+    public DateTime HoraEntrada { get; set; } 
+    public DateTime? HoraSaida { get; set; }   
+    public string TipoVeiculo { get; set; }  
 }
  
