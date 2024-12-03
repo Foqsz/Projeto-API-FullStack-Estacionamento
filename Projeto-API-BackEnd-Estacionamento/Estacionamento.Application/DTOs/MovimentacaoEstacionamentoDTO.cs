@@ -4,14 +4,14 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 
 public class MovimentacaoEstacionamentoDTO
 {
-    public int Id { get; set; }
     [Required(ErrorMessage = "O ID do veículo é obrigatório.")]
-    public int VeiculoId { get; set; }
-    [Required(ErrorMessage = "O tipo da vaga é obrigatório.")]
-    public string TipoVaga { get; set; } = string.Empty;
-    [Required(ErrorMessage = "A data de entrada é obrigatória.")]
-    public DateTime DataEntrada { get; set; }
-    public DateTime? DataSaida { get; set; }
-    [Required(ErrorMessage = "O ID do estabelecimento é obrigatório.")]
-    public int EstabelecimentoId { get; set; }
+    public int Id { get; set; }
+    [Required(ErrorMessage = "A Placa do veículo é obrigatória.")]
+    public string PlacaVeiculo { get; set; } // Relaciona com o veículo
+    [Required(ErrorMessage = "A Hora de entrada do veículo é obrigatória.")]
+    public DateTime HoraEntrada { get; set; }
+    [Required(ErrorMessage = "A Hora de saída do veículo é obrigatória.")]
+    public DateTime? HoraSaida { get; set; }
+    [Required(ErrorMessage = "O Tipo do veículo é obrigatório.")]
+    public string TipoVeiculo { get; set; }
 }
