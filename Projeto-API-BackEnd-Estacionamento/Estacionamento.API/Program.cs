@@ -11,10 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Adicionar serviços ao contêiner
 
 builder.Services.AddControllers();
-
-// Configuração do Swagger
-builder.Services.AddEndpointsApiExplorer(); // Para explorar os endpoints na documentação
-builder.Services.AddSwaggerGen(); // Gera a documentação Swagger
+ 
+builder.Services.AddOpenApi();  // padrão v1.json
 
 // Configuração da conexão com o banco de dados
 var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -40,10 +38,10 @@ var app = builder.Build();
 // Configuração do pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(); // Ativa o Swagger
+    app.MapOpenApi();  
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+        c.SwaggerEndpoint("/openapi/v1.json", "API V1");
     });
 }
 
