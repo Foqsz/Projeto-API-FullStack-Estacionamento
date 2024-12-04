@@ -6,7 +6,6 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfac
 public interface IMovimentacaoService
 {
     Task<MovimentacaoEstacionamentoDTO> RegistrarEntrada(string placa, string TipoVeiculo);
-    Task<MovimentacaoEstacionamentoDTO> RegistrarSaida(int id, string placa);
-    Task<bool> VagaDisponivel(string tipoVeiculo);
+    Task<MovimentacaoEstacionamentoDTO> RegistrarSaida(int id, string placa); 
     Task<IEnumerable<MovimentacaoEstacionamentoDTO>> GetAllEstacionados();
 }

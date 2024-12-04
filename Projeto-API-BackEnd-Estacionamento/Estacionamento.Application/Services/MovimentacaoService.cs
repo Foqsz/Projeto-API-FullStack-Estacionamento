@@ -38,11 +38,4 @@ public class MovimentacaoService : IMovimentacaoService
 
         return _mapper.Map<MovimentacaoEstacionamentoDTO>(saidaVeiculo);
     }
-
-    public async Task<bool> VagaDisponivel(string tipoVeiculo)
-    {
-        var vagas = _movimentacaoRepository.VagaDisponivel(tipoVeiculo);
-
-        return vagas.Result;
-    }
 }
