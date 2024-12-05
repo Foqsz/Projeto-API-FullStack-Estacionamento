@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs.Mappings;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Services;
@@ -16,6 +17,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();
+
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "API Estacionamento",
+        Version = "v1",
+        Description = "API Desafio Back-end .NET",
+        Contact = new OpenApiContact
+        {
+            Name = "Victor Vinicius Alves de L. Souza",
+            Url = new Uri("https://www.linkedin.com/in/victorvinicius/")
+        }
+    });
 }); 
 
 // Configuração da conexão com o banco de dados
