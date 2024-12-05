@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.API.Controllers;
 
@@ -20,8 +21,12 @@ public class VeiculosController : ControllerBase
         _mapper = mapper;
         _logger = logger;
     }
-     
-    [HttpGet("ListarVeiculos")]
+
+    /// <summary>
+    /// Listar todos os veículos da empresa.
+    /// </summary>
+    /// <returns>Retorna todos os veículos.</returns>
+    [HttpGet("ListarVeiculos")] 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<VeiculosDTO>>> GetVeiculosAll()
@@ -36,7 +41,12 @@ public class VeiculosController : ControllerBase
 
         return Ok(listarVeiculos);
     }
-     
+
+    /// <summary>
+    /// Lista um veículo de acordo com o ID informado.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>Retorna a informação do veiculo id que foi informado.</returns>
     [HttpGet("ChecarVeiculo/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -52,7 +62,12 @@ public class VeiculosController : ControllerBase
 
         return Ok(veiculoId);
     }
-     
+
+    /// <summary>
+    /// Cadastra um veiculo no sistema.
+    /// </summary>
+    /// <param name="veiculo"></param>
+    /// <returns>Retorna a criação de um veiculo.</returns>
     [HttpPost("CadastrarVeiculo")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,13 +83,19 @@ public class VeiculosController : ControllerBase
 
         return Ok(registerVeiculo);
     }
-     
+
+    /// <summary>
+    /// Atualiza um veiculo no banco de dados.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="veiculo"></param>
+    /// <returns>Retorna um veiculo atualizado.</returns>
     [HttpPut("AtualizarVeiculo/{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<VeiculosDTO>> PutVeiculo(int id, VeiculosDTO veiculo)
     {
-        var putVeiculo = await _veiculosService.UpdateVeiculo(id,veiculo);
+        var putVeiculo = await _veiculosService.UpdateVeiculo(id, veiculo);
 
         if (putVeiculo == null)
         {
@@ -84,7 +105,12 @@ public class VeiculosController : ControllerBase
 
         return Ok(putVeiculo);
     }
-     
+
+    /// <summary>
+    /// Deleta um veiculo no banco de dados.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>Retorna o veiculo deletado.</returns>
     [HttpDelete("DeletarVeiculo/{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
