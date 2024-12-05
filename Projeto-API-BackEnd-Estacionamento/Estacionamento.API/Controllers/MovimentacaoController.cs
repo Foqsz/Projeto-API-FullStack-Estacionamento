@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.API.Controllers;
 
@@ -22,6 +23,7 @@ public class MovimentacaoController : ControllerBase
     }
 
     [HttpGet("Estacionados")]
+    [SwaggerOperation(Summary = "Lista todos os veículos estacionados.", Description = "Retorna todos os veículos que estão estacionados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<MovimentacaoEstacionamentoDTO>>> VeiculosEstacionados()
     {
@@ -31,6 +33,7 @@ public class MovimentacaoController : ControllerBase
     }
 
     [HttpPost("Entrada")]
+    [SwaggerOperation(Summary = "Registra a entrada de um veículo no estacionamento.", Description = "Adiciona um veículo como estacionado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> RegistrarEntrada([FromBody] MovimentacaoEstacionamentoDTO entrada)
@@ -41,6 +44,7 @@ public class MovimentacaoController : ControllerBase
     }
 
     [HttpPost("Saida/{id}/{placa}")]
+    [SwaggerOperation(Summary = "Faz a retirada de um veículo estacionado.", Description = "Retira um veículo do estacionamento.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<MovimentacaoEstacionamentoDTO>> RegistrarSaida(int id, string placa)

@@ -26,7 +26,8 @@ public class VeiculosController : ControllerBase
     /// Listar todos os veículos da empresa.
     /// </summary>
     /// <returns>Retorna todos os veículos.</returns>
-    [HttpGet("ListarVeiculos")] 
+    [HttpGet("ListarVeiculos")]
+    [SwaggerOperation( Summary = "Lista todos os veículos.", Description = "Retorna todos os veículos do banco de dados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<VeiculosDTO>>> GetVeiculosAll()
@@ -48,6 +49,7 @@ public class VeiculosController : ControllerBase
     /// <param name="id"></param>
     /// <returns>Retorna a informação do veiculo id que foi informado.</returns>
     [HttpGet("ChecarVeiculo/{id}")]
+    [SwaggerOperation(Summary = "Checa um veículo de acordo com o id informado.", Description = "Retorna o veiculo de ID informado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<VeiculosDTO>> GetVeiculoById(int id)
@@ -69,6 +71,7 @@ public class VeiculosController : ControllerBase
     /// <param name="veiculo"></param>
     /// <returns>Retorna a criação de um veiculo.</returns>
     [HttpPost("CadastrarVeiculo")]
+    [SwaggerOperation(Summary = "Cadastra um veiculo no sistema.", Description = "Adiciona um veiculo no banco de dados.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<VeiculosDTO>> PostVeiculo(VeiculosDTO veiculo)
@@ -91,6 +94,7 @@ public class VeiculosController : ControllerBase
     /// <param name="veiculo"></param>
     /// <returns>Retorna um veiculo atualizado.</returns>
     [HttpPut("AtualizarVeiculo/{id}")]
+    [SwaggerOperation(Summary = "Atualizar as informações de um veículo.", Description = "Retorna um veiculo atualizado.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<VeiculosDTO>> PutVeiculo(int id, VeiculosDTO veiculo)
@@ -112,6 +116,7 @@ public class VeiculosController : ControllerBase
     /// <param name="id"></param>
     /// <returns>Retorna o veiculo deletado.</returns>
     [HttpDelete("DeletarVeiculo/{id}")]
+    [SwaggerOperation(Summary = "Deleta um veiculo.", Description = "Retorna um veiculo deletado.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<VeiculosDTO>> DeleteVeiculo(int id)

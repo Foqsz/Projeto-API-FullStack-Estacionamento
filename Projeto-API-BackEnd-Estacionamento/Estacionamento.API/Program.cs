@@ -9,10 +9,14 @@ using Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repositor
 var builder = WebApplication.CreateBuilder(args);
 
 // Adicionar serviços ao contêiner
-
 builder.Services.AddControllers();
- 
-builder.Services.AddOpenApi();  // padrão v1.json
+
+// Adiciona o Swagger
+builder.Services.AddEndpointsApiExplorer();  
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+}); 
 
 // Configuração da conexão com o banco de dados
 var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -38,10 +42,12 @@ var app = builder.Build();
 // Configuração do pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();  
+    // Ativa o Swagger no ambiente de desenvolvimento
+    app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/openapi/v1.json", "API V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+        c.RoutePrefix = string.Empty;  // Isso coloca a interface do Swagger na raiz do aplicativo
     });
 }
 

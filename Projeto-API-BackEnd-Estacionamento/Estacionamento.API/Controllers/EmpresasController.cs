@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.API.Controllers;
 
@@ -21,6 +22,7 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpGet("ListarEmpresas")]
+    [SwaggerOperation(Summary = "Lista todas as empresas.", Description = "Retorna todas as empresas do banco de dados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<EmpresaDTO>>> GetEmpresasAll()
@@ -39,6 +41,7 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpGet("ChecarEmpresa/{id}")]
+    [SwaggerOperation(Summary = "Checa uma empresa de acordo com o ID informado", Description = "Retorna as informações da empresa com o id informado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<EmpresaDTO>> GetEmpresaId(int id)
@@ -55,6 +58,7 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpPost("CriarEmpresa")]
+    [SwaggerOperation(Summary = "Adiciona uma empresa ao sistema.", Description = "Retorna a criação de uma empresa.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<EmpresaDTO>> PostEmpresa(EmpresaDTO empresa)
@@ -73,6 +77,7 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpPut("EditarEmpresa/{id}")]
+    [SwaggerOperation(Summary = "Atualiza as informações de uma empresa", Description = "Edita as informações da empresa.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<EmpresaDTO>> PutEmpresa(int id, EmpresaDTO empresa)
@@ -89,6 +94,7 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpDelete("DeletarEmpresa/{id}")]
+    [SwaggerOperation(Summary = "Remove uma empresa do sistema.", Description = "Apaga a empresa desejada.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteEmpresa(int id)
