@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
@@ -22,6 +23,7 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpGet("ListarEmpresas")]
+    [Authorize]
     [SwaggerOperation(Summary = "Lista todas as empresas.", Description = "Retorna todas as empresas do banco de dados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -38,9 +38,9 @@ public class MovimentacaoRepository : IMovimentacaoRepository
             TipoVeiculo = TipoVeiculo
         };
 
-        var checkVeculo = await _context.Veiculos.FirstOrDefaultAsync(r => r.Placa == placa);
+        var checkVeiculo = await _context.Veiculos.FirstOrDefaultAsync(r => r.Placa == placa);
 
-        if (checkVeculo == null)
+        if (checkVeiculo == null)
         {
             throw new Exception($"Veículo com a placa '{placa}' não foi encontrado no registro geral.");
         }
@@ -76,16 +76,5 @@ public class MovimentacaoRepository : IMovimentacaoRepository
         await _context.SaveChangesAsync();
 
         return registro;
-    }
-
-    public async Task<bool> VagaDisponivel(string tipoVeiculo)
-    {
-        Empresa empresa = new Empresa();
-
-        int totalVagas = tipoVeiculo == "Carro" ? empresa.qVagasCarros : empresa.qVagasMotos;
-
-        int ocupadas = await _context.movimentacaoEstacionamento.CountAsync(r => r.TipoVeiculo == tipoVeiculo && r.HoraSaida == null);
-
-        return ocupadas < totalVagas;
     }
 }

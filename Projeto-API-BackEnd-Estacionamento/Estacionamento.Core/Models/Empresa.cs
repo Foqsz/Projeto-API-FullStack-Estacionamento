@@ -19,4 +19,5 @@ public class Empresa
     public int qVagasMotos { get; set; }
     [Required(ErrorMessage = "Informar a quantidade de vagas para carros é obrigatório.")]
     public int qVagasCarros { get; set; }
+
 }

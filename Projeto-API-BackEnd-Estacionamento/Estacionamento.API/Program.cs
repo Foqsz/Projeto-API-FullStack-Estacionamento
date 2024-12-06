@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Adiciona o Swagger
-builder.Services.AddEndpointsApiExplorer();  
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();
@@ -29,7 +29,7 @@ builder.Services.AddSwaggerGen(c =>
             Url = new Uri("https://www.linkedin.com/in/victorvinicius/")
         }
     });
-}); 
+});
 
 // Configuração da conexão com o banco de dados
 var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -44,6 +44,9 @@ builder.Services.AddScoped<IVeiculosRepository, VeiculosRepository>();
 builder.Services.AddScoped<IEmpresasService, EmpresasService>();
 builder.Services.AddScoped<IVeiculosService, VeiculosService>();
 builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
+
+//token jwt
+builder.Services.AddTransient<TokenService>();
 
 // Configuração do AutoMapper
 builder.Services.AddAutoMapper(typeof(EmpresaDTOMappingProfile));
