@@ -62,7 +62,7 @@ public class EmpresasController : ControllerBase
     [HttpPost("CriarEmpresa")]
     [SwaggerOperation(Summary = "Adiciona uma empresa ao sistema.", Description = "Retorna a criação de uma empresa.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<EmpresaDTO>> PostEmpresa(EmpresaDTO empresa)
     {
         var createEmpresa = await _empresasService.CreateEmpresaService(empresa);
@@ -70,12 +70,12 @@ public class EmpresasController : ControllerBase
         if (createEmpresa == null)
         {
             _logger.LogError("Não foi possível criar a empresa informada.");
-            return BadRequest();
+            return NotFound();
         }
 
-        var empresaCriada = _mapper.Map<EmpresaDTO>(createEmpresa);
+        //var empresaCriada = _mapper.Map<EmpresaDTO>(createEmpresa);
 
-        return CreatedAtAction(nameof(GetEmpresaId), new { id = createEmpresa.Id }, empresaCriada);
+        return CreatedAtAction(nameof(GetEmpresaId), new { id = createEmpresa.Id }, createEmpresa);
     }
 
     [HttpPut("EditarEmpresa/{id}")]
