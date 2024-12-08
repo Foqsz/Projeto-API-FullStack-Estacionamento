@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs.Mappings;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
@@ -6,6 +7,7 @@ using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Services;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Data;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repository;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repository.Interface;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +31,62 @@ builder.Services.AddSwaggerGen(c =>
             Url = new Uri("https://www.linkedin.com/in/victorvinicius/")
         }
     });
+
+    // Configuração de segurança para JWT no Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Insira o token JWT no formato: {seu token}"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
 });
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = false, // Se você estiver usando um servidor de identidade, configure isso corretamente
+            ValidateAudience = false, // Se necessário, configure isso
+            ValidateLifetime = true, // Certifique-se de que o token tem uma vida útil válida
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"])), // Chave secreta usada para assinar o JWT
+            ClockSkew = TimeSpan.Zero // Evitar problemas com fuso horário e expiração de token
+        };
+    });
+
 
 // Configuração da conexão com o banco de dados
 var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -68,6 +125,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

@@ -340,8 +340,5 @@ public class EmpresaControllerTests
         var result = await sut.DeleteEmpresa(3);
 
         // Assert
-        var okDeleteEmpresa = result as NotFoundResult;
-        Assert.NotNull(okDeleteEmpresa);  // Verifica se o resultado não é nulo
-        Assert.Equal(404, okDeleteEmpresa.StatusCode);  // Verifica se o status é 404  
-    }
+        var okDeleteEmpresa = result as NotFoundR
 }
