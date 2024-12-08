@@ -82,17 +82,27 @@ public class EmpresasController : ControllerBase
     [SwaggerOperation(Summary = "Atualiza as informações de uma empresa", Description = "Edita as informações da empresa.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<EmpresaDTO>> PutEmpresa(int id, EmpresaDTO empresa)
     {
-        var updateEmpresa = await _empresasService.UpdateEmpresaService(id, empresa);
+        var empresaExistente = await _empresasService.GetEmpresaIdService(id);
 
-        if (updateEmpresa == null)
+        if (empresaExistente == null)
         {
-            _logger.LogError("Não foi possível atualizar a empresa informada.");
-            return BadRequest();
+            return NotFound("Não foi possível atualizar a empresa informada.");
         }
 
-        return Ok(updateEmpresa);
+        if (id != empresa.Id)
+        {
+            _logger.LogError("O ID da empresa não corresponde ao ID fornecido.");
+            return BadRequest("O ID da empresa não corresponde ao ID fornecido.");
+        }
+
+        var updateEmpresa = await _empresasService.UpdateEmpresaService(id, empresa);
+          
+        var empresaAtualizada = _mapper.Map<EmpresaDTO>(updateEmpresa);
+
+        return Ok(empresaAtualizada);
     }
 
     [HttpDelete("DeletarEmpresa/{id}")]
@@ -101,14 +111,15 @@ public class EmpresasController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteEmpresa(int id)
     {
-        var deleteEmpresa = await _empresasService.DeleteEmpresaService(id);
+        var empresaExistente = await _empresasService.GetEmpresaIdService(id);
 
-        if (deleteEmpresa == null)
+        if (empresaExistente == null)
         {
             _logger.LogError("Não foi possível deletar a empresa informada.");
             return NotFound();
-        }
-
+        } 
+        var deleteEmpresa = await _empresasService.DeleteEmpresaService(id);
+          
         return Ok(deleteEmpresa);
     }
 }
