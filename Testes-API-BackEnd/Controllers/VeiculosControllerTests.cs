@@ -72,8 +72,7 @@ public class VeiculosControllerTests
         Assert.NotNull(okResultVeiculos);
         Assert.Equal(200, okResultVeiculos.StatusCode);
         Assert.IsType<VeiculosDTO>(okResultVeiculos.Value);
-    }
-
+    } 
 
     [Fact]
     public async Task GetVeiculoId_ShouldReturn404NotFound()
@@ -94,5 +93,70 @@ public class VeiculosControllerTests
         var okResultVeiculos = result.Result as NotFoundResult;
         Assert.NotNull(okResultVeiculos);
         Assert.Equal(404, okResultVeiculos.StatusCode); 
+    }
+
+    [Fact]
+    public async Task GetCreateVeiculo_ShouldReturn200Status()
+    {
+        //Arrange
+        var veiculoService = new Mock<IVeiculosService>();
+        var newVeiculoMock = new VeiculosDTO
+        {
+            Id = 1,
+            Marca = "Chevrolet",
+            Modelo = "Onix",
+            Cor = "Azul",
+            Placa = "C89YU1H",
+            Tipo = "Hatchback"
+        };
+
+        veiculoService.Setup(service => service.CreateVeiculo(newVeiculoMock)).ReturnsAsync(newVeiculoMock).Verifiable(); //verifiable para verificar se o método foi chamado corretamente
+
+
+        var logger = new Mock<ILogger<VeiculosController>>();
+        var mapper = new Mock<IMapper>();
+
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+
+        //Act
+        var result = await sut.PostVeiculo(newVeiculoMock);
+
+        //Assert
+        var createVeiculoResult = result.Result as CreatedAtActionResult;
+        Assert.NotNull(createVeiculoResult);
+        Assert.Equal(201, createVeiculoResult.StatusCode);
+        Assert.IsType<VeiculosDTO>(createVeiculoResult.Value);
+    }
+
+    [Fact]
+    public async Task GetCreateVeiculo_ShouldReturn404NotFound()
+    {
+        //Arrange
+        var veiculoService = new Mock<IVeiculosService>();
+        var newVeiculoMock = new VeiculosDTO
+        {
+            Id = 1,
+            Marca = "Chevrolet",
+            Modelo = "Onix",
+            Cor = "Azul",
+            Placa = "C89YU1H",
+            Tipo = "Hatchback"
+        };
+
+        veiculoService.Setup(service => service.CreateVeiculo(newVeiculoMock)).ReturnsAsync((VeiculosDTO)null);  
+
+
+        var logger = new Mock<ILogger<VeiculosController>>();
+        var mapper = new Mock<IMapper>();
+
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+
+        //Act
+        var result = await sut.PostVeiculo(newVeiculoMock);
+
+        //Assert
+        var createVeiculoResultNoTfound = result.Result as NotFoundResult;
+        Assert.NotNull(createVeiculoResultNoTfound);
+        Assert.Equal(404, createVeiculoResultNoTfound.StatusCode); 
     }
 }

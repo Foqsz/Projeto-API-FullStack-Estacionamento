@@ -27,7 +27,7 @@ public class VeiculosController : ControllerBase
     /// </summary>
     /// <returns>Retorna todos os veículos.</returns>
     [HttpGet("ListarVeiculos")]
-    [SwaggerOperation( Summary = "Lista todos os veículos.", Description = "Retorna todos os veículos do banco de dados")]
+    [SwaggerOperation(Summary = "Lista todos os veículos.", Description = "Retorna todos os veículos do banco de dados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<VeiculosDTO>>> GetVeiculosAll()
@@ -73,7 +73,7 @@ public class VeiculosController : ControllerBase
     [HttpPost("CadastrarVeiculo")]
     [SwaggerOperation(Summary = "Cadastra um veiculo no sistema.", Description = "Adiciona um veiculo no banco de dados.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<VeiculosDTO>> PostVeiculo(VeiculosDTO veiculo)
     {
         var registerVeiculo = await _veiculosService.CreateVeiculo(veiculo);
@@ -81,10 +81,10 @@ public class VeiculosController : ControllerBase
         if (registerVeiculo == null)
         {
             _logger.LogError("Não foi possível cadastrar o veiculo.");
-            return BadRequest();
+            return NotFound();
         }
 
-        return Ok(registerVeiculo);
+        return CreatedAtAction(nameof(GetVeiculoById), new { id = registerVeiculo.Id }, registerVeiculo);
     }
 
     /// <summary>
