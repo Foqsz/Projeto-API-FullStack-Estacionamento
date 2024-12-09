@@ -213,7 +213,7 @@ public class EmpresaControllerTests
     }
 
     [Fact]
-    public async Task GetUpdateEmpresa_ShouldReturn400BadRequest_WhenEmpresaIsUpdatedBadRequest()
+    public async Task PutEmpresa_ShouldReturn400BadRequest_WhenEmpresaIsUpdatedBadRequest()
     {
         // Arrange
         var empresaService = new Mock<IEmpresasService>();
@@ -228,9 +228,14 @@ public class EmpresaControllerTests
             qVagasCarros = 2
         };
 
-        empresaService.Setup(service => service.UpdateEmpresaService(5, updateEmpresaMock))
+        // Mock para GetEmpresaIdService
+        empresaService.Setup(service => service.GetEmpresaIdService(1))
+                      .ReturnsAsync(updateEmpresaMock);
+
+        // Mock para UpdateEmpresaService
+        empresaService.Setup(service => service.UpdateEmpresaService(1, updateEmpresaMock))
                       .ReturnsAsync(updateEmpresaMock)
-                      .Verifiable();  // Verifique se o método foi chamado corretamente
+                      .Verifiable();
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
@@ -242,10 +247,10 @@ public class EmpresaControllerTests
 
         // Assert
         var badRequestResult = result.Result as BadRequestObjectResult;
-        Assert.NotNull(badRequestResult);  // Verifica se o resultado não é nulo
-        Assert.Equal(400, badRequestResult.StatusCode);  // Verifica se o status é 400 
-        Assert.Equal("O ID da empresa não corresponde ao ID fornecido.", badRequestResult.Value);  // Verifica a mensagem de erro
-    }
+        Assert.NotNull(badRequestResult);
+        Assert.Equal(400, badRequestResult.StatusCode);
+        Assert.Equal("O ID da empresa não corresponde ao ID fornecido.", badRequestResult.Value);
+    } 
 
     [Fact]
     public async Task GetUpdateEmpresa_ShouldReturn404NotFound_WhenEmpresaIsUpdatedNotFound()
