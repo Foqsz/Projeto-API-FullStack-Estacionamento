@@ -268,4 +268,68 @@ public class VeiculosControllerTests
         Assert.Equal(404, putVeiculoNotFound.StatusCode);
         Assert.Equal("Não foi possível atualizar o veiculo.", putVeiculoNotFound.Value);
     }
+
+    [Fact]
+    public async Task DeleteVeiculo_ShouldReturn200StatusOk()
+    {
+        // Arrange
+        var veiculoService = new Mock<IVeiculosService>();
+        var newVeiculoMock = new VeiculosDTO
+        {
+            Id = 1,
+            Marca = "Chevrolet",
+            Modelo = "Onix",
+            Cor = "Azul",
+            Placa = "C89YU1H",
+            Tipo = "Hatchback"
+        };
+
+        // Configuração do Mock
+        veiculoService.Setup(service => service.DeleteVeiculo(1));
+
+        var logger = new Mock<ILogger<VeiculosController>>();
+        var mapper = new Mock<IMapper>(); 
+
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+
+        // Act
+        var result = await sut.DeleteVeiculo(1);
+
+        // Assert
+        var deleteVeiculo = result as OkObjectResult;
+        Assert.NotNull(deleteVeiculo);
+        Assert.Equal(200, deleteVeiculo.StatusCode); 
+    }
+
+    [Fact]
+    public async Task DeleteVeiculo_ShouldReturn404NotFound()
+    {
+        // Arrange
+        var veiculoService = new Mock<IVeiculosService>();
+        var newVeiculoMock = new VeiculosDTO
+        {
+            Id = 1,
+            Marca = "Chevrolet",
+            Modelo = "Onix",
+            Cor = "Azul",
+            Placa = "C89YU1H",
+            Tipo = "Hatchback"
+        };
+
+        // Configuração do Mock
+        veiculoService.Setup(service => service.DeleteVeiculo(2));
+
+        var logger = new Mock<ILogger<VeiculosController>>();
+        var mapper = new Mock<IMapper>();
+
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+
+        // Act
+        var result = await sut.DeleteVeiculo(2);
+
+        // Assert
+        var deleteVeiculoNotFound = result as NotFoundResult;
+        Assert.NotNull(deleteVeiculoNotFound);
+        Assert.Equal(404, deleteVeiculoNotFound.StatusCode);
+    }
 }

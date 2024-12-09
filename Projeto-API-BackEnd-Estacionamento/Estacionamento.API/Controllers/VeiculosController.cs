@@ -130,15 +130,17 @@ public class VeiculosController : ControllerBase
     [SwaggerOperation(Summary = "Deleta um veiculo.", Description = "Retorna um veiculo deletado.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<VeiculosDTO>> DeleteVeiculo(int id)
-    {
-        var deleteVeiculo = await _veiculosService.DeleteVeiculo(id);
-
-        if (deleteVeiculo == null)
+    public async Task<ActionResult> DeleteVeiculo(int id)
+    { 
+        var checkVeiculoId = await _veiculosService.GetVeiculoId(id);
+         
+        if (checkVeiculoId == null)
         {
             _logger.LogError($"Não foi possível deletar o veiculo ID {id}.");
             return NotFound();
         }
+
+        var deleteVeiculo = await _veiculosService.DeleteVeiculo(id);
 
         return Ok(deleteVeiculo);
     }
