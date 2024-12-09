@@ -43,9 +43,14 @@ public class MovimentacaoController : ControllerBase
     [SwaggerOperation(Summary = "Registra a entrada de um veículo no estacionamento.", Description = "Adiciona um veículo como estacionado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> RegistrarEntrada([FromBody] MovimentacaoEstacionamentoDTO entrada)
+    public async Task<ActionResult> RegistrarEntrada(string placa, string tipoVeiculo)
     {
-        var registro = await _movimentacaoService.RegistrarEntrada(entrada.PlacaVeiculo, entrada.TipoVeiculo);
+        var registro = await _movimentacaoService.RegistrarEntrada(placa, tipoVeiculo);
+
+        if (registro == null)
+        {
+            return NotFound();
+        }
 
         return Ok(registro);
     }
@@ -57,6 +62,11 @@ public class MovimentacaoController : ControllerBase
     public async Task<ActionResult<MovimentacaoEstacionamentoDTO>> RegistrarSaida(int id, string placa)
     {
         var registro = await _movimentacaoService.RegistrarSaida(id, placa);
+
+        if (registro == null)
+        {
+            return NotFound();
+        }
 
         return Ok(registro);
     }
