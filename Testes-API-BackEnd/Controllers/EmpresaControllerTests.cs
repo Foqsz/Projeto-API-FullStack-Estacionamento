@@ -198,7 +198,7 @@ public class EmpresaControllerTests
                       .Verifiable();  // Verifique se o método foi chamado corretamente
 
         var logger = new Mock<ILogger<EmpresasController>>();
-        var mapper = new Mock<IMapper>(); 
+        var mapper = new Mock<IMapper>();
 
         var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
 
@@ -340,5 +340,8 @@ public class EmpresaControllerTests
         var result = await sut.DeleteEmpresa(3);
 
         // Assert
-        var okDeleteEmpresa = result as NotFoundR
+        var okDeleteEmpresaNotFound = result as NotFoundResult;
+        Assert.NotNull(okDeleteEmpresaNotFound);  // Verifica se o resultado não é nulo
+        Assert.Equal(200, okDeleteEmpresaNotFound.StatusCode);  // Verifica se o status é 200  
+    }
 }
