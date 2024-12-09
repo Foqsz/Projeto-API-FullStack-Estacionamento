@@ -25,9 +25,16 @@ public class MovimentacaoController : ControllerBase
     [HttpGet("Estacionados")]
     [SwaggerOperation(Summary = "Lista todos os veículos estacionados.", Description = "Retorna todos os veículos que estão estacionados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<MovimentacaoEstacionamentoDTO>>> VeiculosEstacionados()
     {
         var estacionados = await _movimentacaoService.GetAllEstacionados();
+
+        if (estacionados == null)
+        {
+            _logger.LogError("Nenhum veiculo nas movimentacoes do estacionamento.");
+            return NotFound();
+        }
 
         return Ok(estacionados);
     }
