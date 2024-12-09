@@ -72,13 +72,13 @@ public class VeiculosControllerTests
         Assert.NotNull(okResultVeiculos);
         Assert.Equal(200, okResultVeiculos.StatusCode);
         Assert.IsType<VeiculosDTO>(okResultVeiculos.Value);
-    } 
+    }
 
     [Fact]
     public async Task GetVeiculoId_ShouldReturn404NotFound()
     {
         //Arrange
-        var veiculoService = new Mock<IVeiculosService>(); 
+        var veiculoService = new Mock<IVeiculosService>();
         veiculoService.Setup(service => service.GetVeiculoId(It.IsAny<int>())).ReturnsAsync((VeiculosDTO)null);
 
         var logger = new Mock<ILogger<VeiculosController>>();
@@ -92,7 +92,7 @@ public class VeiculosControllerTests
         //Assert
         var okResultVeiculos = result.Result as NotFoundResult;
         Assert.NotNull(okResultVeiculos);
-        Assert.Equal(404, okResultVeiculos.StatusCode); 
+        Assert.Equal(404, okResultVeiculos.StatusCode);
     }
 
     [Fact]
@@ -143,7 +143,7 @@ public class VeiculosControllerTests
             Tipo = "Hatchback"
         };
 
-        veiculoService.Setup(service => service.CreateVeiculo(newVeiculoMock)).ReturnsAsync((VeiculosDTO)null);  
+        veiculoService.Setup(service => service.CreateVeiculo(newVeiculoMock)).ReturnsAsync((VeiculosDTO)null);
 
 
         var logger = new Mock<ILogger<VeiculosController>>();
@@ -157,6 +157,115 @@ public class VeiculosControllerTests
         //Assert
         var createVeiculoResultNoTfound = result.Result as NotFoundResult;
         Assert.NotNull(createVeiculoResultNoTfound);
-        Assert.Equal(404, createVeiculoResultNoTfound.StatusCode); 
+        Assert.Equal(404, createVeiculoResultNoTfound.StatusCode);
+    }
+
+    [Fact]
+    public async Task PutVeiculo_ShouldReturn200Status()
+    {
+        // Arrange
+        var veiculoService = new Mock<IVeiculosService>();
+        var updateVeiculoMock = new VeiculosDTO
+        {
+            Id = 1,
+            Marca = "Chevrolet",
+            Modelo = "Onix",
+            Cor = "Azul",
+            Placa = "C89YU1H",
+            Tipo = "Hatchback"
+        };
+
+        // Configuração do Mock
+        veiculoService.Setup(service => service.GetVeiculoId(1)).ReturnsAsync(updateVeiculoMock);
+        veiculoService.Setup(service => service.UpdateVeiculo(1, updateVeiculoMock)).ReturnsAsync(updateVeiculoMock).Verifiable();
+
+        var logger = new Mock<ILogger<VeiculosController>>();
+        var mapper = new Mock<IMapper>();
+
+        // Configurar o Mock do mapper se necessário
+        mapper.Setup(m => m.Map<VeiculosDTO>(It.IsAny<VeiculosDTO>())).Returns(updateVeiculoMock);
+
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+
+        // Act
+        var result = await sut.PutVeiculo(1, updateVeiculoMock);
+
+        // Assert
+        var putVeiculo = result.Result as OkObjectResult;
+        Assert.NotNull(putVeiculo);
+        Assert.Equal(200, putVeiculo.StatusCode);
+        Assert.IsType<VeiculosDTO>(putVeiculo.Value);
+    }
+
+    [Fact]
+    public async Task PutVeiculo_ShouldReturn400BadRequest()
+    {
+        // Arrange
+        var veiculoService = new Mock<IVeiculosService>();
+        var updateVeiculoMock = new VeiculosDTO
+        {
+            Id = 1,
+            Marca = "Chevrolet",
+            Modelo = "Onix",
+            Cor = "Azul",
+            Placa = "C89YU1H",
+            Tipo = "Hatchback"
+        };
+
+        // Configuração do Mock
+        veiculoService.Setup(service => service.GetVeiculoId(It.IsAny<int>())).ReturnsAsync(updateVeiculoMock);
+
+        var logger = new Mock<ILogger<VeiculosController>>();
+        var mapper = new Mock<IMapper>();
+
+        // Configurar o Mock do mapper se necessário
+        mapper.Setup(m => m.Map<VeiculosDTO>(It.IsAny<VeiculosDTO>())).Returns(updateVeiculoMock);
+
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+
+        // Act
+        var result = await sut.PutVeiculo(2, updateVeiculoMock);
+
+        // Assert
+        var putVeiculoBadRequest = result.Result as BadRequestObjectResult;
+        Assert.NotNull(putVeiculoBadRequest);
+        Assert.Equal(400, putVeiculoBadRequest.StatusCode);
+        Assert.Equal("O ID do veiculo não corresponde ao ID fornecido.", putVeiculoBadRequest.Value);  
+    }
+
+    [Fact]
+    public async Task PutVeiculo_ShouldReturn404NotFound()
+    {
+        // Arrange
+        var veiculoService = new Mock<IVeiculosService>();
+        var updateVeiculoMock = new VeiculosDTO
+        {
+            Id = 1,
+            Marca = "Chevrolet",
+            Modelo = "Onix",
+            Cor = "Azul",
+            Placa = "C89YU1H",
+            Tipo = "Hatchback"
+        };
+
+        // Configuração do Mock
+        veiculoService.Setup(service => service.UpdateVeiculo(3, updateVeiculoMock)).ReturnsAsync((VeiculosDTO)null);
+
+        var logger = new Mock<ILogger<VeiculosController>>();
+        var mapper = new Mock<IMapper>();
+
+        // Configurar o Mock do mapper se necessário
+        mapper.Setup(m => m.Map<VeiculosDTO>(It.IsAny<VeiculosDTO>())).Returns(updateVeiculoMock);
+
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+
+        // Act
+        var result = await sut.PutVeiculo(3, updateVeiculoMock);
+
+        // Assert
+        var putVeiculoNotFound = result.Result as NotFoundObjectResult;
+        Assert.NotNull(putVeiculoNotFound);
+        Assert.Equal(404, putVeiculoNotFound.StatusCode);
+        Assert.Equal("Não foi possível atualizar o veiculo.", putVeiculoNotFound.Value);
     }
 }

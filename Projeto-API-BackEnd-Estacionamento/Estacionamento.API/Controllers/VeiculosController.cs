@@ -95,19 +95,30 @@ public class VeiculosController : ControllerBase
     /// <returns>Retorna um veiculo atualizado.</returns>
     [HttpPut("AtualizarVeiculo/{id}")]
     [SwaggerOperation(Summary = "Atualizar as informações de um veículo.", Description = "Retorna um veiculo atualizado.")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<VeiculosDTO>> PutVeiculo(int id, VeiculosDTO veiculo)
     {
-        var putVeiculo = await _veiculosService.UpdateVeiculo(id, veiculo);
+        var putVeiculo = await _veiculosService.GetVeiculoId(id);
 
         if (putVeiculo == null)
         {
             _logger.LogError("Não foi possível atualizar o veiculo.");
-            return BadRequest();
+            return NotFound("Não foi possível atualizar o veiculo.");
         }
 
-        return Ok(putVeiculo);
+        if (id != putVeiculo.Id)
+        {
+            _logger.LogError("O ID do veiculo não corresponde ao ID fornecido.");
+            return BadRequest("O ID do veiculo não corresponde ao ID fornecido.");
+        }
+
+        var updateVeiculo = await _veiculosService.UpdateVeiculo(id, veiculo);
+
+        var veiculoAtualizado = _mapper.Map<VeiculosDTO>(updateVeiculo);
+
+        return Ok(veiculoAtualizado);
     }
 
     /// <summary>
