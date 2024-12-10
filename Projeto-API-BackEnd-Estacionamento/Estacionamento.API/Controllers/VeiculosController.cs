@@ -144,7 +144,7 @@ public class VeiculosController : ControllerBase
 
         var deleteVeiculo = await _veiculosService.DeleteVeiculo(id);
 
-        _logger.LogInformation("Veiculo deletado com sucesso.");
+        _logger.LogInformation($"Veiculo placa {checkVeiculoId.Placa} deletado com sucesso.");
         return Ok(deleteVeiculo);
     }
 }

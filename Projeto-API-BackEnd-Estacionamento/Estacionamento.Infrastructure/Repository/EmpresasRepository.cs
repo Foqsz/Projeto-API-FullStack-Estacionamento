@@ -19,11 +19,13 @@ public class EmpresasRepository : IEmpresasRepository
 
     public async Task<IEnumerable<Empresa>> GetAllEmpresas()
     {
+        _logger.LogInformation("Get all empresas");
         return await _context.Empresa.ToListAsync();
     }
 
     public async Task<Empresa> GetEmpresaId(int id)
     {
+        _logger.LogInformation($"Get empresa id: {id}");
         return await _context.Empresa.Where(e => e.Id == id).FirstOrDefaultAsync();
     }
 
@@ -39,6 +41,8 @@ public class EmpresasRepository : IEmpresasRepository
 
         await _context.Empresa.AddAsync(empresa);
         await _context.SaveChangesAsync();
+        
+        _logger.LogInformation("CREATE: Empresa no banco de dados.");
         return empresa;
 
     }
@@ -72,11 +76,10 @@ public class EmpresasRepository : IEmpresasRepository
         _context.Empresa.Update(empresa);
         await _context.SaveChangesAsync();
 
+        _logger.LogInformation("UPDATE: Empresa no banco de dados.");
         return empresa;
     }
-
-
-
+    
     public async Task<bool> DeleteEmpresa(int id)
     {
         var removeEmpresa = await _context.Empresa.FindAsync(id);
@@ -84,12 +87,13 @@ public class EmpresasRepository : IEmpresasRepository
         if (removeEmpresa == null)
         {
             _logger.LogError("DELETE: Empresa não localizada no banco de dados.");
-            throw new KeyNotFoundException("Empresa não encontrada.");
+            throw new KeyNotFoundException("Empresa não encontrada no banco de dados.");
         }
 
         _context.Empresa.Remove(removeEmpresa);
         await _context.SaveChangesAsync();
 
+        _logger.LogInformation("DELETE: Empresa no banco de dados.");
         return true;
     }
 }

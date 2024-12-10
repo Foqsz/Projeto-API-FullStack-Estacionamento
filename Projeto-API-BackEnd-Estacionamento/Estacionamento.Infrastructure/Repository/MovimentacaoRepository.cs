@@ -23,9 +23,11 @@ public class MovimentacaoRepository : IMovimentacaoRepository
 
         if (!veiculosEstacionados.Any())
         {
+            _logger.LogError("Nenhum veiculo estacionado.");
             throw new Exception("Nenhum veículo estacionado.");
         }
 
+        _logger.LogInformation("Veiculos estacionados listados.");
         return veiculosEstacionados;
     }
 

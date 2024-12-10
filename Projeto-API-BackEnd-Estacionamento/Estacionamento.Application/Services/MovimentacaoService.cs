@@ -22,6 +22,7 @@ public class MovimentacaoService : IMovimentacaoService
     {
         var estacionados = await _movimentacaoRepository.GetAllEstacionados();
 
+        _logger.LogInformation($"Listado os Estacionados. Total de estacionados: {estacionados.Count()}");
         return _mapper.Map<IEnumerable<MovimentacaoEstacionamentoDTO>>(estacionados);
     }
 
@@ -32,10 +33,12 @@ public class MovimentacaoService : IMovimentacaoService
         return _mapper.Map<MovimentacaoEstacionamentoDTO>(entradaVeiculo);
     }
 
+    #region Registrar Saida de Veículos
     public async Task<MovimentacaoEstacionamentoDTO> RegistrarSaida(int id, string placa)
     {
         var saidaVeiculo = await _movimentacaoRepository.RegistrarSaida(id, placa);
 
         return _mapper.Map<MovimentacaoEstacionamentoDTO>(saidaVeiculo);
     }
+    #endregion
 }

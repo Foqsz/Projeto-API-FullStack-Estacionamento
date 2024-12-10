@@ -36,12 +36,13 @@ public class MovimentacaoController : ControllerBase
             return NotFound();
         }
 
+        _logger.LogInformation($"Veiculos listados com sucesso. {DateTime.Now}");
         return Ok(estacionados);
     }
 
     [HttpPost("Entrada")]
     [SwaggerOperation(Summary = "Registra a entrada de um veículo no estacionamento.", Description = "Adiciona um veículo como estacionado.")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+            [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> RegistrarEntrada(string placa, string tipoVeiculo)
     {
@@ -51,7 +52,8 @@ public class MovimentacaoController : ControllerBase
         {
             return NotFound();
         }
-
+       
+        _logger.LogInformation("Registro entrada com sucesso.");
         return Ok(registro);
     }
 

@@ -23,6 +23,7 @@ public class VeiculosRepository : IVeiculosRepository
 
     public async Task<Veiculos> GetVeiculoId(int id)
     {
+        _logger.LogInformation($"Veiculo Id: {id}");
         return await _context.Veiculos.Where(v => v.Id == id).FirstOrDefaultAsync();
     }
 
@@ -38,6 +39,8 @@ public class VeiculosRepository : IVeiculosRepository
 
         await _context.Veiculos.AddAsync(veiculo);
         await _context.SaveChangesAsync();
+        
+        _logger.LogInformation($"VEICULO CREATED: {veiculo.Placa}");
         return veiculo;
     }
 
@@ -70,6 +73,7 @@ public class VeiculosRepository : IVeiculosRepository
         _context.Veiculos.Update(veiculo);
         await _context.SaveChangesAsync();
 
+        _logger.LogInformation($"VEICULO UPDATED: {veiculo.Placa}");
         return veiculo;
     }
 
@@ -86,6 +90,7 @@ public class VeiculosRepository : IVeiculosRepository
         _context.Veiculos.Remove(removeVeiculo);
         await _context.SaveChangesAsync();
 
+        _logger.LogInformation($"VEICULO DELETED: {removeVeiculo.Placa}");
         return true;
     }
 }

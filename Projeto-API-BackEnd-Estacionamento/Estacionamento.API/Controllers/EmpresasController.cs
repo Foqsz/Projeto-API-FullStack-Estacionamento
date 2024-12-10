@@ -75,6 +75,7 @@ public class EmpresasController : ControllerBase
             return NotFound();
         }
         
+        _logger.LogInformation("Empresa criada com sucesso.");
         return CreatedAtAction(nameof(GetEmpresaId), new { id = createEmpresa.Id }, createEmpresa);
     }
 
@@ -106,7 +107,7 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpDelete("DeletarEmpresa/{id}")]
-    [SwaggerOperation(Summary = "Remove uma empresa do sistema.", Description = "Apaga a empresa desejada.")]
+    [SwaggerOperation(Summary = "Remove uma empresa do sistema.", Description = "Deleta uma empresa desejada.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteEmpresa(int id)
