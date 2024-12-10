@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper; 
 using Microsoft.AspNetCore.Mvc;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
@@ -62,6 +61,7 @@ public class VeiculosController : ControllerBase
             return NotFound();
         }
 
+        _logger.LogInformation($"Veiculo id {id} checado com sucesso.");
         return Ok(veiculoId);
     }
 
@@ -84,6 +84,7 @@ public class VeiculosController : ControllerBase
             return NotFound();
         }
 
+        _logger.LogInformation("Veiculo cadastrado com sucesso no sistema.");
         return CreatedAtAction(nameof(GetVeiculoById), new { id = registerVeiculo.Id }, registerVeiculo);
     }
 
@@ -118,6 +119,7 @@ public class VeiculosController : ControllerBase
 
         var veiculoAtualizado = _mapper.Map<VeiculosDTO>(updateVeiculo);
 
+        _logger.LogInformation("O veiculo foi atualizado com sucesso.");
         return Ok(veiculoAtualizado);
     }
 
@@ -142,6 +144,7 @@ public class VeiculosController : ControllerBase
 
         var deleteVeiculo = await _veiculosService.DeleteVeiculo(id);
 
+        _logger.LogInformation("Veiculo deletado com sucesso.");
         return Ok(deleteVeiculo);
     }
 }

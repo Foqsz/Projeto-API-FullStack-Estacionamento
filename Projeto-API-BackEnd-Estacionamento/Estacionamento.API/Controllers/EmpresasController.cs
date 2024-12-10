@@ -39,6 +39,7 @@ public class EmpresasController : ControllerBase
 
         var empresaMapper = _mapper.Map<IEnumerable<EmpresaDTO>>(empresasAll);
 
+        _logger.LogInformation("Empresas listadas com sucesso.");
         return Ok(empresaMapper);
     }
 
@@ -56,6 +57,7 @@ public class EmpresasController : ControllerBase
             return NotFound();
         }
 
+        _logger.LogInformation($"Empresa Id {id} localizada com sucesso.");
         return Ok(empresaId);
     }
 
@@ -72,9 +74,7 @@ public class EmpresasController : ControllerBase
             _logger.LogError("Não foi possível criar a empresa informada.");
             return NotFound();
         }
-
-        //var empresaCriada = _mapper.Map<EmpresaDTO>(createEmpresa);
-
+        
         return CreatedAtAction(nameof(GetEmpresaId), new { id = createEmpresa.Id }, createEmpresa);
     }
 
