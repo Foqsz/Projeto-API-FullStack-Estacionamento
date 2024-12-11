@@ -21,6 +21,7 @@ public class VeiculosController : ControllerBase
         _logger = logger;
     }
 
+    #region Listar todos os veículos no sistema
     /// <summary>
     /// Listar todos os veículos da empresa.
     /// </summary>
@@ -33,15 +34,14 @@ public class VeiculosController : ControllerBase
     {
         var listarVeiculos = await _veiculosService.GetAllVeiculos();
 
-        if (listarVeiculos == null)
-        {
-            _logger.LogError("Não foi possível listar os veiculos.");
-            return NotFound();
-        }
+        if (listarVeiculos.Any()) return Ok(listarVeiculos);
+        _logger.LogError("Não foi possível listar os veiculos.");
+        return NotFound("Nenhum veículo cadastrado no sistema.");
 
-        return Ok(listarVeiculos);
     }
-
+    #endregion
+    
+    #region Checar veículo pelo ID
     /// <summary>
     /// Lista um veículo de acordo com o ID informado.
     /// </summary>
@@ -64,7 +64,9 @@ public class VeiculosController : ControllerBase
         _logger.LogInformation($"Veiculo id {id} checado com sucesso.");
         return Ok(veiculoId);
     }
-
+    #endregion
+    
+    #region Cadastrar Veículo
     /// <summary>
     /// Cadastra um veiculo no sistema.
     /// </summary>
@@ -87,7 +89,9 @@ public class VeiculosController : ControllerBase
         _logger.LogInformation("Veiculo cadastrado com sucesso no sistema.");
         return CreatedAtAction(nameof(GetVeiculoById), new { id = registerVeiculo.Id }, registerVeiculo);
     }
-
+    #endregion
+    
+    #region Atualizar Veículo
     /// <summary>
     /// Atualiza um veiculo no banco de dados.
     /// </summary>
@@ -122,7 +126,9 @@ public class VeiculosController : ControllerBase
         _logger.LogInformation("O veiculo foi atualizado com sucesso.");
         return Ok(veiculoAtualizado);
     }
+    #endregion
 
+    #region Deletar Veículo
     /// <summary>
     /// Deleta um veiculo no banco de dados.
     /// </summary>
@@ -145,6 +151,8 @@ public class VeiculosController : ControllerBase
         var deleteVeiculo = await _veiculosService.DeleteVeiculo(id);
 
         _logger.LogInformation($"Veiculo placa {checkVeiculoId.Placa} deletado com sucesso.");
-        return Ok(deleteVeiculo);
+        return Ok($"Veículo de placa {checkVeiculoId.Placa} e marca {checkVeiculoId.Marca} deletado com sucesso.");
     }
+    #endregion
+
 }

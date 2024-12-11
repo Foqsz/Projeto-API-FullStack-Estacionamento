@@ -11,7 +11,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicionar serviços ao contêiner
+// Adicionar serviÃ§os ao container
 builder.Services.AddControllers();
 
 // Adiciona o Swagger
@@ -32,7 +32,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
-    // Configuração de segurança para JWT no Swagger
+    // ConfiguraÃ§Ã£o de seguranÃ§a para JWT no Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -79,21 +79,21 @@ builder.Services.AddAuthentication("Bearer")
     {
         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
         {
-            ValidateIssuer = false, // Se você estiver usando um servidor de identidade, configure isso corretamente
-            ValidateAudience = false, // Se necessário, configure isso
-            ValidateLifetime = true, // Certifique-se de que o token tem uma vida útil válida
+            ValidateIssuer = false,  
+            ValidateAudience = false, 
+            ValidateLifetime = true,  
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"])), // Chave secreta usada para assinar o JWT
-            ClockSkew = TimeSpan.Zero // Evitar problemas com fuso horário e expiração de token
+            ClockSkew = TimeSpan.Zero  
         };
     });
 
 
-// Configuração da conexão com o banco de dados
+// ConfiguraÃ§Ã£o da conexÃ£o com o banco de dados
 var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<EstacionamentoDbContext>(options =>
     options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 
-// Registrando os serviços de repositório e serviço
+// Registrando os serviÃ§os de repositÃ³rio e serviÃ§os
 builder.Services.AddScoped<IEmpresasRepository, EmpresasRepository>();
 builder.Services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
 builder.Services.AddScoped<IVeiculosRepository, VeiculosRepository>();
@@ -105,14 +105,14 @@ builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
 //token jwt
 builder.Services.AddTransient<TokenService>();
 
-// Configuração do AutoMapper
+// ConfiguraÃ§Ã£o do AutoMapper
 builder.Services.AddAutoMapper(typeof(EmpresaDTOMappingProfile));
 builder.Services.AddAutoMapper(typeof(VeiculosDTOMappingProfile));
 builder.Services.AddAutoMapper(typeof(MovimentacaoEstacionamentoDTOMappingProfile));
 
 var app = builder.Build();
 
-// Configuração do pipeline HTTP
+// ConfiguraÃ§Ã£o do pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     // Ativa o Swagger no ambiente de desenvolvimento
