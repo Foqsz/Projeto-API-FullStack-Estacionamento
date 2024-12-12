@@ -1,4 +1,5 @@
-﻿using AutoMapper; 
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
@@ -34,9 +35,7 @@ public class VeiculosController : ControllerBase
     {
         var listarVeiculos = await _veiculosService.GetAllVeiculos();
 
-        if (listarVeiculos.Any()) return Ok(listarVeiculos);
-        _logger.LogError("Não foi possível listar os veiculos.");
-        return NotFound("Nenhum veículo cadastrado no sistema.");
+        return Ok(listarVeiculos);
 
     }
     #endregion
@@ -48,13 +47,14 @@ public class VeiculosController : ControllerBase
     /// <param name="id"></param>
     /// <returns>Retorna a informação do veiculo id que foi informado.</returns>
     [HttpGet("ChecarVeiculo/{id}")]
+    [Authorize]
     [SwaggerOperation(Summary = "Checa um veículo de acordo com o id informado.", Description = "Retorna o veiculo de ID informado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<VeiculosDTO>> GetVeiculoById(int id)
     {
         var veiculoId = await _veiculosService.GetVeiculoId(id);
-
+ 
         if (veiculoId == null)
         {
             _logger.LogError($"Não foi possível listar o veiculo id {id}, não localizado..");
@@ -73,6 +73,7 @@ public class VeiculosController : ControllerBase
     /// <param name="veiculo"></param>
     /// <returns>Retorna a criação de um veiculo.</returns>
     [HttpPost("CadastrarVeiculo")]
+    [Authorize]
     [SwaggerOperation(Summary = "Cadastra um veiculo no sistema.", Description = "Adiciona um veiculo no banco de dados.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -99,6 +100,7 @@ public class VeiculosController : ControllerBase
     /// <param name="veiculo"></param>
     /// <returns>Retorna um veiculo atualizado.</returns>
     [HttpPut("AtualizarVeiculo/{id}")]
+    [Authorize]
     [SwaggerOperation(Summary = "Atualizar as informações de um veículo.", Description = "Retorna um veiculo atualizado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -135,23 +137,16 @@ public class VeiculosController : ControllerBase
     /// <param name="id"></param>
     /// <returns>Retorna o veiculo deletado.</returns>
     [HttpDelete("DeletarVeiculo/{id}")]
+    [Authorize]
     [SwaggerOperation(Summary = "Deleta um veiculo.", Description = "Retorna um veiculo deletado.")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteVeiculo(int id)
-    { 
-        var checkVeiculoId = await _veiculosService.GetVeiculoId(id);
-         
-        if (checkVeiculoId == null)
-        {
-            _logger.LogError($"Não foi possível deletar o veiculo ID {id}.");
-            return NotFound();
-        }
-
+    {   
         var deleteVeiculo = await _veiculosService.DeleteVeiculo(id);
 
-        _logger.LogInformation($"Veiculo placa {checkVeiculoId.Placa} deletado com sucesso.");
-        return Ok($"Veículo de placa {checkVeiculoId.Placa} e marca {checkVeiculoId.Marca} deletado com sucesso.");
+        _logger.LogInformation($"Veiculo deletado com sucesso.");
+        return Ok("Veículo deletado com sucesso.");
     }
     #endregion
 

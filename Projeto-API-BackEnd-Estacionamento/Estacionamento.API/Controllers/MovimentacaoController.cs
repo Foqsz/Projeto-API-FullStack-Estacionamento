@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
@@ -29,18 +30,13 @@ public class MovimentacaoController : ControllerBase
     public async Task<ActionResult<IEnumerable<MovimentacaoEstacionamentoDTO>>> VeiculosEstacionados()
     {
         var estacionados = await _movimentacaoService.GetAllEstacionados();
-
-        if (estacionados == null)
-        {
-            _logger.LogError("Nenhum veiculo nas movimentacoes do estacionamento.");
-            return NotFound();
-        }
-
+  
         _logger.LogInformation($"Veiculos listados com sucesso. {DateTime.Now}");
         return Ok(estacionados);
     }
 
     [HttpPost("Entrada")]
+    [Authorize]
     [SwaggerOperation(Summary = "Registra a entrada de um veículo no estacionamento.", Description = "Adiciona um veículo como estacionado.")]
             [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -58,6 +54,7 @@ public class MovimentacaoController : ControllerBase
     }
 
     [HttpPost("Saida/{id}/{placa}")]
+    [Authorize]
     [SwaggerOperation(Summary = "Faz a retirada de um veículo estacionado.", Description = "Retira um veículo do estacionamento.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -109,18 +109,11 @@ public class EmpresasController : ControllerBase
     [HttpDelete("DeletarEmpresa/{id}")]
     [SwaggerOperation(Summary = "Remove uma empresa do sistema.", Description = "Deleta uma empresa desejada.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> DeleteEmpresa(int id)
-    {
-        var empresaExistente = await _empresasService.GetEmpresaIdService(id);
-
-        if (empresaExistente == null)
-        {
-            _logger.LogError("Não foi possível deletar a empresa informada.");
-            return NotFound();
-        } 
+    { 
         var deleteEmpresa = await _empresasService.DeleteEmpresaService(id);
-          
+         
         return Ok(deleteEmpresa);
     }
 }
