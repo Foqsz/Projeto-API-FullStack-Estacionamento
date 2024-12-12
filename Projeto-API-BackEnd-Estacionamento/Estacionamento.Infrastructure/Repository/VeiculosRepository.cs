@@ -84,7 +84,17 @@ public class VeiculosRepository : IVeiculosRepository
         if (removeVeiculo == null)
         {
             _logger.LogError("DELETE VEICULO: VEICULO não localizado no banco de dados.");
-            throw new KeyNotFoundException("VEICULO não encontrado.");
+            throw new KeyNotFoundException("VEICULO não encontrado. Não foi posssível deletar.");
+        }
+
+        // Remover o veículo dos estacionados antes de deletar
+        var veiculoEstacionado = await _context.movimentacaoEstacionamento
+            .FirstOrDefaultAsync(v => v.PlacaVeiculo == removeVeiculo.Placa);
+
+        if (veiculoEstacionado != null)
+        {
+            _context.movimentacaoEstacionamento.Remove(veiculoEstacionado);
+            await _context.SaveChangesAsync();  
         }
 
         _context.Veiculos.Remove(removeVeiculo);

@@ -40,12 +40,8 @@ public class MovimentacaoRepository : IMovimentacaoRepository
             TipoVeiculo = TipoVeiculo
         };
 
-        var checkVeiculo = await _context.Veiculos.FirstOrDefaultAsync(r => r.Placa == placa);
-
-        if (checkVeiculo == null)
-        {
+        var checkVeiculo = await _context.Veiculos.FirstOrDefaultAsync(r => r.Placa == placa) ?? 
             throw new Exception($"Veículo com a placa '{placa}' não foi encontrado no registro geral.");
-        }
 
         registro.HoraSaida = DateTime.Now;
 
@@ -60,12 +56,8 @@ public class MovimentacaoRepository : IMovimentacaoRepository
         var registro = await _context.movimentacaoEstacionamento
             .FirstOrDefaultAsync(r => r.PlacaVeiculo == placa && r.Id == id);
 
-        var checkRegistroDb = await _context.Veiculos.FirstOrDefaultAsync(r => r.Placa == placa);
-
-        if (checkRegistroDb == null)
-        {
+        var checkRegistroDb = await _context.Veiculos.FirstOrDefaultAsync(r => r.Placa == placa) ?? 
             throw new Exception($"Veículo com a placa '{placa}' e id '{id}' não foi encontrado no registro geral.");
-        }
 
         if (registro == null)
         {
