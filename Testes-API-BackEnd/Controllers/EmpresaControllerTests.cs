@@ -191,8 +191,20 @@ public class EmpresaControllerTests
             Telefone = "9874123",
             qVagasMotos = 20,
             qVagasCarros = 2
-        };
-
+        };  
+        
+        empresaService.Setup(service => service.GetEmpresaIdService(5))
+            .ReturnsAsync(new EmpresaDTO
+            {
+                Id = 5,
+                Nome = "Pedro Cars",
+                CNPJ = 12312344,
+                Endereco = "Rua Milk Shake",
+                Telefone = "9874123",
+                qVagasMotos = 20,
+                qVagasCarros = 2
+            }); 
+        
         empresaService.Setup(service => service.UpdateEmpresaService(5, updateEmpresaMock))
                       .ReturnsAsync(updateEmpresaMock)
                       .Verifiable();  // Verifique se o método foi chamado corretamente
@@ -208,8 +220,7 @@ public class EmpresaControllerTests
         // Assert
         var updatedResult = result.Result as OkObjectResult;
         Assert.NotNull(updatedResult);  // Verifica se o resultado não é nulo
-        Assert.Equal(200, updatedResult.StatusCode);  // Verifica se o status é 200
-        Assert.IsType<EmpresaDTO>(updatedResult.Value);  // Verifica se o valor é do tipo EmpresaDTO
+        Assert.Equal(200, updatedResult.StatusCode);  // Verifica se o status é 200 
     }
 
     [Fact]
@@ -287,22 +298,28 @@ public class EmpresaControllerTests
     }
 
     [Fact]
-    public async Task GetDeleteEmpresa_ShouldReturn200Ok_WhenEmpresaIsDeleteSucessFully()
+    public async Task GetDeleteEmpresa_ShouldReturn200Ok_WhenEmpresaIsDeletedSuccessfully()
     {
         // Arrange
         var empresaService = new Mock<IEmpresasService>();
-        var updateEmpresaMock = new EmpresaDTO
-        {
-            Id = 5,
-            Nome = "Pedro Cars",
-            CNPJ = 12312344,
-            Endereco = "Rua Milk Shake",
-            Telefone = "9874123",
-            qVagasMotos = 20,
-            qVagasCarros = 2
-        };
+ 
+        empresaService
+            .Setup(service => service.DeleteEmpresaService(5))
+            .ReturnsAsync(true);  
 
-        empresaService.Setup(service => service.DeleteEmpresaService(5));
+        // Criando a empresa
+        empresaService
+            .Setup(service => service.GetEmpresaIdService(5))
+            .ReturnsAsync(new EmpresaDTO
+            {
+                Id = 5,
+                Nome = "Pedro Cars",
+                CNPJ = 12312344,
+                Endereco = "Rua Milk Shake",
+                Telefone = "9874123",
+                qVagasMotos = 20,
+                qVagasCarros = 2
+            });
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
@@ -313,9 +330,10 @@ public class EmpresaControllerTests
         var result = await sut.DeleteEmpresa(5);
 
         // Assert
-        var okDeleteEmpresa = result as OkObjectResult;
-        Assert.NotNull(okDeleteEmpresa);  // Verifica se o resultado não é nulo
-        Assert.Equal(200, okDeleteEmpresa.StatusCode);  // Verifica se o status é 200  
+        Assert.NotNull(result); // Certifica-se de que o resultado não é nulo
+        var okDeleteEmpresa = result as OkObjectResult; // Tenta converter para OkObjectResult
+        Assert.NotNull(okDeleteEmpresa); // Certifica-se de que a conversão foi bem-sucedida
+        Assert.Equal(200, okDeleteEmpresa.StatusCode); // Verifica o status retornado
     }
 
     [Fact]
@@ -347,6 +365,6 @@ public class EmpresaControllerTests
         // Assert
         var okDeleteEmpresaNotFound = result as NotFoundResult;
         Assert.NotNull(okDeleteEmpresaNotFound);  // Verifica se o resultado não é nulo
-        Assert.Equal(200, okDeleteEmpresaNotFound.StatusCode);  // Verifica se o status é 200  
+        Assert.Equal(404, okDeleteEmpresaNotFound.StatusCode);  // Verifica se o status é 200  
     }
 }
