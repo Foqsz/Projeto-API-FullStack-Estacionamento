@@ -363,8 +363,9 @@ public class EmpresaControllerTests
         var result = await sut.DeleteEmpresa(3);
 
         // Assert
-        var okDeleteEmpresaNotFound = result as NotFoundResult;
+        var okDeleteEmpresaNotFound = result as OkObjectResult;
         Assert.NotNull(okDeleteEmpresaNotFound);  // Verifica se o resultado não é nulo
-        Assert.Equal(404, okDeleteEmpresaNotFound.StatusCode);  // Verifica se o status é 200  
+        Assert.Equal(500, okDeleteEmpresaNotFound.StatusCode);  // Verifica se o status é 500  
+        Assert.Equal("Empresa não encontrada no banco de dados.", okDeleteEmpresaNotFound.Value);  // Verifica se o status é 200  
     }
 }

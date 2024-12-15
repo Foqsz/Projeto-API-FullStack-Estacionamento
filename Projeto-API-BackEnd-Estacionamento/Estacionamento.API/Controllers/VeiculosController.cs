@@ -145,7 +145,7 @@ public class VeiculosController : ControllerBase
     {   
         var deleteVeiculo = await _veiculosService.DeleteVeiculo(id);
 
-        _logger.LogInformation($"Veiculo deletado com sucesso.");
+        _logger.LogInformation("Veiculo deletado com sucesso.");
         return Ok("Veículo deletado com sucesso.");
     }
     #endregion
