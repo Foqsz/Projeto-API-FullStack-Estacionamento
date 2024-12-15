@@ -8,7 +8,7 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Services
 
 public class VeiculosService : IVeiculosService
 {
-    private readonly IVeiculosRepository _veiculosRepository;
+    private readonly IVeiculosRepository _veiculosRepository; 
     private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
@@ -23,13 +23,10 @@ public class VeiculosService : IVeiculosService
     {
         var veiculosAll = await _veiculosRepository.GetAllVeiculos();
 
-        if (veiculosAll == null)
-        {
-            _logger.LogError("Nenhum veiculo registrado no sistema.");
-            throw new ArgumentNullException(nameof(veiculosAll));
-        }
-
-        return _mapper.Map<IEnumerable<VeiculosDTO>>(veiculosAll);
+        if (veiculosAll.Any()) return _mapper.Map<IEnumerable<VeiculosDTO>>(veiculosAll);
+        _logger.LogError("Nenhum veiculo registrado no sistema.");
+        throw new ArgumentNullException(nameof(veiculosAll), "Não foi localizado nenhum veículo no banco de dados.");
+        
     }
 
     public async Task<VeiculosDTO> GetVeiculoId(int id)
@@ -62,15 +59,9 @@ public class VeiculosService : IVeiculosService
         return _mapper.Map<VeiculosDTO>(updateVeiculo);
     }
     public async Task<bool> DeleteVeiculo(int id)
-    {
+    { 
         var veiculoDelete = await _veiculosRepository.DeleteVeiculo(id);
-
-        if (veiculoDelete == null)
-        {
-            _logger.LogError("Não foi possível deletar o veículo.");
-            throw new Exception("O ID informado não foi encontrado no banco de dados.");
-        }
-
+          
         return veiculoDelete;
     }
 }

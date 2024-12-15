@@ -22,8 +22,10 @@ public class EmpresasService : IEmpresasService
     public async Task<IEnumerable<EmpresaDTO>> GetAllEmpresasService()
     {
         var allEmpresas = await _empresasRepository.GetAllEmpresas();
-
-        return _mapper.Map<IEnumerable<EmpresaDTO>>(allEmpresas);
+        
+        if(allEmpresas.Any()) return _mapper.Map<IEnumerable<EmpresaDTO>>(allEmpresas);
+        _logger.LogError("Nenhuma empresa localizada no sistema.");
+        throw new ArgumentNullException(nameof(allEmpresas), "Nenhuma empresa cadastrada no sistema.");
     }
 
     public async Task<EmpresaDTO> GetEmpresaIdService(int id)

@@ -22,8 +22,10 @@ public class MovimentacaoService : IMovimentacaoService
     {
         var estacionados = await _movimentacaoRepository.GetAllEstacionados();
 
+        if(estacionados.Any()) return _mapper.Map<IEnumerable<MovimentacaoEstacionamentoDTO>>(estacionados);
         _logger.LogInformation($"Listado os Estacionados. Total de estacionados: {estacionados.Count()}");
-        return _mapper.Map<IEnumerable<MovimentacaoEstacionamentoDTO>>(estacionados);
+        throw new ArgumentNullException(nameof(estacionados), "Nenhum veículo estacionado no momento.");
+        
     }
 
     public async Task<MovimentacaoEstacionamentoDTO> RegistrarEntrada(string placa, string TipoVeiculo)
