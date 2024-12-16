@@ -1,4 +1,4 @@
-using Estacionamento_FrontEnd.Models;
+using Estacionamento_FrontEnd.Estacionamento.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

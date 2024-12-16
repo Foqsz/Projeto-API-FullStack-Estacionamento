@@ -1,7 +1,18 @@
+using Estacionamento_FrontEnd.Estacionamento.Application.Service;
+using Estacionamento_FrontEnd.Estacionamento.Application.Service.Interface;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient("EstacionamentoApi", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7038/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
+builder.Services.AddScoped<IEmpresaService, EmpresaService>();
 
 var app = builder.Build();
 
