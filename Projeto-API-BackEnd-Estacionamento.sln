@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto-API-BackEnd-Estacio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testes-API-BackEnd", "Testes-API-BackEnd\Testes-API-BackEnd.csproj", "{2C2FAF55-4F19-4C64-B2DB-79E6B95B9B34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estacionamento-FrontEnd", "Estacionamento-FrontEnd\Estacionamento-FrontEnd.csproj", "{E9B02D92-0D54-4FCF-A694-9190AC612B5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2C2FAF55-4F19-4C64-B2DB-79E6B95B9B34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C2FAF55-4F19-4C64-B2DB-79E6B95B9B34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C2FAF55-4F19-4C64-B2DB-79E6B95B9B34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9B02D92-0D54-4FCF-A694-9190AC612B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9B02D92-0D54-4FCF-A694-9190AC612B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9B02D92-0D54-4FCF-A694-9190AC612B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9B02D92-0D54-4FCF-A694-9190AC612B5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
