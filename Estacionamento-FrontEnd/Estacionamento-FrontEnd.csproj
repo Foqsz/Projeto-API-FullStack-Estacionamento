@@ -7,8 +7,4 @@
     <RootNamespace>Estacionamento_FrontEnd</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Estacionamento.Application\Service\Interface\" />
-  </ItemGroup>
-
 </Project>
