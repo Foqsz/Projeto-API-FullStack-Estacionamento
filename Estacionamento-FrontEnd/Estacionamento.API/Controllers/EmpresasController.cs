@@ -35,7 +35,7 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
             return View(empresa);
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<ActionResult> UpdateEmpresa(int id, EmpresaViewModel empresa)
         {
             if (!ModelState.IsValid) return View(empresa);
@@ -69,7 +69,7 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
             if (empresa == null)
             {
                 return NotFound();
-            } 
+            }
 
             return View(empresa);
         }
@@ -79,24 +79,17 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Se o modelo não for válido, retorne a view com o modelo
                 return View(empresa);
             }
 
-            // Verifique se o ID da empresa foi passado corretamente
             if (empresa?.Id == null)
             {
-                // Caso o Id seja nulo, redirecione para a página de erro ou lista
                 return RedirectToAction("Index");
             }
 
-            // Chame o serviço para deletar a empresa
             await _empresaService.DeletarEmpresa(empresa.Id);
 
-            // Redirecione para a lista após excluir
             return RedirectToAction("Index", "Empresas");
         }
-
-
     }
 }

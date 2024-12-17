@@ -8,6 +8,6 @@ namespace Estacionamento_FrontEnd.Estacionamento.Application.Service.Interface
         Task<EmpresaViewModel> GetEmpresaById(int id);
         Task<EmpresaViewModel> PostEmpresa(EmpresaViewModel empresa);
         Task<EmpresaViewModel> PutEmpresa(int id, EmpresaViewModel empresa);
-        Task<bool> DeleteEmpresa(int id);
+        Task<bool> DeletarEmpresa(int id);
     }
 }

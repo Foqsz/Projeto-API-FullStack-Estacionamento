@@ -1,0 +1,48 @@
+﻿@model Estacionamento_FrontEnd.Estacionamento.Core.Models.EmpresaViewModel
+
+@{
+    ViewData["Title"] = "Atualizar a Empresa";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-group">
+    <p>Abaixo todas as informações editáveis da empresa <strong>@Model.Nome</strong>.</p>
+</div>
+
+<form asp-action="UpdateEmpresa" method="post">
+    <div class="form-group">
+        <label for="Name">Nome da Empresa</label>
+        <input type="text" class="form-control" id="Nome" name="Nome" value="@Model.Nome" required />
+    </div>
+    <div class="form-group">
+        <label for="CNPJ">CNPJ da Empresa</label>
+        <input type="text" class="form-control" id="CNPJ" name="CNPJ" value="@Model.CNPJ" required />
+    </div>
+    <div class="form-group">
+        <label for="Endereco">Endereco Da Empresa</label>
+        <input type="text" class="form-control" id="Endereco" name="Endereco" value="@Model.Endereco" required />
+    </div>
+    <div class="form-group">
+        <label for="Telefone">Telefone Da Empresa</label>
+        <input type="text" class="form-control" id="Telefone" name="Telefone" value="@Model.Telefone" required />
+    </div>
+    <div class="form-group">
+        <label for="qVagasMotos">Vagas das Motos Da Empresa</label>
+        <input type="text" class="form-control" id="qVagasMotos" name="qVagasMotos" value="@Model.qVagasMotos" required />
+    </div>
+    <div class="form-group">
+        <label for="qVagasCarros">Vagas dos Carros Da Empresa</label>
+        <input type="text" class="form-control" id="qVagasCarros" name="qVagasCarros" value="@Model.qVagasCarros" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Atualizar</button>
+</form>
+
+<!-- Exibir mensagens de erro do ModelState -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        <strong>Erro!</strong> Por favor, corrija os erros abaixo.
+    </div>
+}

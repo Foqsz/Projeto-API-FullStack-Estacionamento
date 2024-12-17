@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Estacionamento_FrontEnd.Estacionamento.Core.Models.EmpresaViewModel
+
+@{
+    ViewData["Title"] = "Create Empresa";
+}
+
+<h2>Create Product</h2>
+
+<form asp-action="CreateEmpresa" method="post" class="form-horizontal">
+    @Html.AntiForgeryToken() <!-- Token anti-forgery para proteção -->
+
+    <div class="form-group">
+        <label asp-for="Nome" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Nome" class="form-control" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="CNPJ" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="CNPJ" class="form-control" />
+            <span asp-validation-for="CNPJ" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Endereco" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Endereco" class="form-control" />
+            <span asp-validation-for="Endereco" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Telefone" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Telefone" class="form-control" />
+            <span asp-validation-for="Telefone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="qVagasMotos" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="qVagasMotos" class="form-control" />
+            <span asp-validation-for="qVagasMotos" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="qVagasCarros" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="qVagasCarros" class="form-control" />
+            <span asp-validation-for="qVagasCarros" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
