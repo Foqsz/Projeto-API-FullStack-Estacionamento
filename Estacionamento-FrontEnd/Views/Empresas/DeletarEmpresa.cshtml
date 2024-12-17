@@ -1,0 +1,47 @@
+﻿@model Estacionamento_FrontEnd.Estacionamento.Core.Models.EmpresaViewModel
+
+<form asp-action="DeletarEmpresa" method="post" class="form-horizontal">
+    @Html.AntiForgeryToken() <!-- Token anti-forgery para proteção -->
+    <!-- Campo oculto para enviar o ID da empresa -->
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <p>Tem certeza de que deseja excluir a empresa <strong>@Model.Nome</strong>?</p>
+    </div>
+
+    <div class="form-group">
+        <p>Confira as informações da empresa <strong>@Model.Nome</strong>:</p>
+    </div>
+
+    <!-- Exibir os dados sem permitir edição (usar campo hidden para enviar os dados corretamente) -->
+    <div class="form-group">
+        <label for="Nome">Nome</label>
+        <input type="hidden" asp-for="Nome" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.Nome" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="CNPJ">CNPJ</label>
+        <input type="hidden" asp-for="CNPJ" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.CNPJ" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="Endereco">Endereço</label>
+        <input type="hidden" asp-for="Endereco" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.Endereco" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="Telefone">Telefone</label>
+        <input type="hidden" asp-for="Telefone" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.Telefone" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+        </div>
+    </div>
+</form>

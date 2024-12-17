@@ -62,21 +62,41 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpDelete]
+        [HttpGet]
         public async Task<ActionResult> DeletarEmpresa(int id)
         {
-            if (!ModelState.IsValid) return View();
-            var empresaExisting = await _empresaService.GetEmpresaById(id);
+            var empresa = await _empresaService.GetEmpresaById(id);
+            if (empresa == null)
+            {
+                return NotFound();
+            } 
 
-            if (empresaExisting is null) return View();
-            await _empresaService.DeletarEmpresa(id);
-            return RedirectToAction("Index");
+            return View(empresa);
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> DeletarEmpresa()
+        [HttpPost]
+        public async Task<ActionResult> DeletarEmpresa(EmpresaViewModel empresa)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                // Se o modelo não for válido, retorne a view com o modelo
+                return View(empresa);
+            }
+
+            // Verifique se o ID da empresa foi passado corretamente
+            if (empresa?.Id == null)
+            {
+                // Caso o Id seja nulo, redirecione para a página de erro ou lista
+                return RedirectToAction("Index");
+            }
+
+            // Chame o serviço para deletar a empresa
+            await _empresaService.DeletarEmpresa(empresa.Id);
+
+            // Redirecione para a lista após excluir
+            return RedirectToAction("Index", "Empresas");
         }
+
+
     }
 }

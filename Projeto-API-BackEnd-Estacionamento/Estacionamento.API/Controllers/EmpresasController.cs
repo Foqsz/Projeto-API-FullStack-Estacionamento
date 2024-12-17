@@ -23,7 +23,7 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpGet("ListarEmpresas")]
-    [Authorize]
+    //[Authorize]
     [SwaggerOperation(Summary = "Lista todas as empresas.", Description = "Retorna todas as empresas do banco de dados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
