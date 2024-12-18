@@ -1,0 +1,53 @@
+﻿@model Estacionamento_FrontEnd.Estacionamento.Core.Models.VeiculosViewModel
+
+<form asp-action="DeletarVeiculo" method="post" class="form-horizontal">
+    @Html.AntiForgeryToken() <!-- Token anti-forgery para proteção -->
+    <!-- Campo oculto para enviar o ID do veculo -->
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <p>Tem certeza de que deseja o cadastro do Veículo <strong>@Model.Marca</strong>?</p>
+    </div>
+
+    <div class="form-group">
+        <p>Confira as informações do Veículo Placa <strong>@Model.Placa</strong>:</p>
+    </div>
+
+    <!-- Exibir os dados sem permitir edição (usar campo hidden para enviar os dados corretamente) -->
+    <div class="form-group">
+        <label for="Marca">Marca</label>
+        <input type="hidden" asp-for="Marca" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.Marca" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="Modelo">Modelo</label>
+        <input type="hidden" asp-for="Modelo" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.Modelo" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="Cor">Cor</label>
+        <input type="hidden" asp-for="Cor" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.Cor" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="Placa">Placa</label>
+        <input type="hidden" asp-for="Placa" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.Placa" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="Tipo">Tipo</label>
+        <input type="hidden" asp-for="Tipo" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.Tipo" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+        </div>
+    </div>
+</form>

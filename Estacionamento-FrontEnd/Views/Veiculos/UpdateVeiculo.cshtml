@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Estacionamento_FrontEnd.Estacionamento.Core.Models.VeiculosViewModel
+
+@{
+    ViewData["Title"] = "Atualizar Veiculo";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-group">
+    <p>Abaixo todas as informações editáveis do veiculo <strong>@Model.Marca</strong>.</p>
+</div>
+
+<form asp-action="UpdateVeiculo" method="post">
+    <div class="form-group">
+        <label for="Marca">Marca do Veiculo</label>
+        <input type="text" class="form-control" id="Marca" name="Marca" value="@Model.Marca" required />
+    </div>
+    <div class="form-group">
+        <label for="Modelo">Modelo do Veiculo</label>
+        <input type="text" class="form-control" id="Modelo" name="Modelo" value="@Model.Modelo" required />
+    </div>
+    <div class="form-group">
+        <label for="Cor">Cor do Veiculo</label>
+        <input type="text" class="form-control" id="Cor" name="Cor" value="@Model.Cor" required />
+    </div>
+    <div class="form-group">
+        <label for="Placa">Placa do Veiculo</label>
+        <input type="text" class="form-control" id="Placa" name="Placa" value="@Model.Placa" required />
+    </div>
+    <div class="form-group">
+        <label for="Tipo">Tipo do Veiculo</label>
+        <input type="text" class="form-control" id="Tipo" name="Tipo" value="@Model.Tipo" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Atualizar</button>
+</form>
+
+<!-- Exibir mensagens de erro do ModelState -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        <strong>Erro!</strong> Por favor, corrija os erros abaixo.
+    </div>
+}
