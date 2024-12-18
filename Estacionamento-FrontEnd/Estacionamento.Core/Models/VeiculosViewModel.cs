@@ -12,7 +12,7 @@ namespace Estacionamento_FrontEnd.Estacionamento.Core.Models
         [JsonPropertyName("Modelo")]
         [Required(ErrorMessage = "Obrigatório informar o modelo do veículo.")]
         public string Modelo { get; set; } = string.Empty;
-        [JsonPropertyName("Nome")]
+        [JsonPropertyName("Cor")]
         [Required(ErrorMessage = "Obrigatório informar a cor do veículo.")]
         public string Cor { get; set; } = string.Empty;
         [JsonPropertyName("Placa")]
