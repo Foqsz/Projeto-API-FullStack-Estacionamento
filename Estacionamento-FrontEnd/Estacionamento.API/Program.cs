@@ -13,6 +13,7 @@ builder.Services.AddHttpClient("EstacionamentoApi", client =>
 });
 
 builder.Services.AddScoped<IEmpresaService, EmpresaService>();
+builder.Services.AddScoped<IVeiculoService, VeiculoService>();
 
 var app = builder.Build();
 

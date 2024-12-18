@@ -38,5 +38,44 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
             return RedirectToAction("Index");
 
         }
+
+        [HttpGet]
+        public async Task<ActionResult> UpdateVeiculo(int id)
+        {
+            var veiculoId = await _veiculoService.GetVeiculoById(id);
+            return veiculoId is null ? View("Error") : View(veiculoId);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateVeiculo(int id, VeiculosViewModel veiculo)
+        {
+            if (id != veiculo.Id)
+            {
+                return View("Error");
+            }
+
+            await _veiculoService.PutVeiculo(id, veiculo);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DeletarVeiculo(int id)
+        {
+            var deletarVeiculo = await _veiculoService.GetVeiculoById(id);
+            return deletarVeiculo == null ? View("Error") : View(deletarVeiculo);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeletarVeiculo(VeiculosViewModel veiculo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(veiculo);
+            }
+
+            await _veiculoService.DeleteVeiculo(veiculo.Id);
+
+            return RedirectToAction("Index", "Veiculos");
+        }
     }
 }

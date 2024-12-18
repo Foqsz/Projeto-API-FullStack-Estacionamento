@@ -64,20 +64,52 @@ namespace Estacionamento_FrontEnd.Estacionamento.Application.Service
                 else
                 {
                     var errorResponse = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine(errorResponse); 
+                    Console.WriteLine(errorResponse);
                     return null;
                 }
             }
         }
 
-        public Task<VeiculosViewModel> PutVeiculo(int id, VeiculosViewModel veiculo)
+        public async Task<VeiculosViewModel> PutVeiculo(int id, VeiculosViewModel veiculo)
         {
-            throw new NotImplementedException();
+            var client = myHttpClient();
+
+            StringContent content = new StringContent(JsonSerializer.Serialize(veiculo), Encoding.UTF8, "application/json");
+
+            using (var response = await client.PutAsync($"{apiEndPoint}/AtualizarVeiculo/{id}", content))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var apiResponse = await response.Content.ReadAsStreamAsync();
+                    return await JsonSerializer.DeserializeAsync<VeiculosViewModel>(apiResponse, _serializerOptions);
+                }
+                else
+                {
+                    var errorResponse = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(errorResponse);
+                    return null;
+                }
+            }
         }
 
-        public Task<bool> DeleteVeiculo(int id)
+        public async Task<bool> DeleteVeiculo(int id)
         {
-            throw new NotImplementedException();
+            var client = myHttpClient();
+
+            using (var response = await client.DeleteAsync($"{apiEndPoint}/DeletarVeiculo/{id}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var apiResponse = await response.Content.ReadAsStreamAsync();
+                    return true;
+                }
+                else
+                {
+                    var errorResponse = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(errorResponse);
+                    return false;
+                }
+            }
         }
 
         private HttpClient myHttpClient()

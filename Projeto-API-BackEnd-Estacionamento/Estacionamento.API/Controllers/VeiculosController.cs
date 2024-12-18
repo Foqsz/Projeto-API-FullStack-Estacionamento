@@ -47,7 +47,7 @@ public class VeiculosController : ControllerBase
     /// <param name="id"></param>
     /// <returns>Retorna a informação do veiculo id que foi informado.</returns>
     [HttpGet("ChecarVeiculo/{id}")]
-    [Authorize]
+    //[Authorize]
     [SwaggerOperation(Summary = "Checa um veículo de acordo com o id informado.", Description = "Retorna o veiculo de ID informado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -73,7 +73,7 @@ public class VeiculosController : ControllerBase
     /// <param name="veiculo"></param>
     /// <returns>Retorna a criação de um veiculo.</returns>
     [HttpPost("CadastrarVeiculo")]
-    [Authorize]
+    //[Authorize]
     [SwaggerOperation(Summary = "Cadastra um veiculo no sistema.", Description = "Adiciona um veiculo no banco de dados.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -100,7 +100,7 @@ public class VeiculosController : ControllerBase
     /// <param name="veiculo"></param>
     /// <returns>Retorna um veiculo atualizado.</returns>
     [HttpPut("AtualizarVeiculo/{id}")]
-    [Authorize]
+    //[Authorize]
     [SwaggerOperation(Summary = "Atualizar as informações de um veículo.", Description = "Retorna um veiculo atualizado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -137,7 +137,7 @@ public class VeiculosController : ControllerBase
     /// <param name="id"></param>
     /// <returns>Retorna o veiculo deletado.</returns>
     [HttpDelete("DeletarVeiculo/{id}")]
-    [Authorize]
+    //[Authorize]
     [SwaggerOperation(Summary = "Deleta um veiculo.", Description = "Retorna um veiculo deletado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
