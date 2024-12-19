@@ -5,6 +5,13 @@
 }
 <h1>@ViewData["Title"]</h1>
 
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        Nenhuma empresa encontrado no momento.
+    </div>
+}
+
 @*<h2>Products</h2>*@
 <hr />
 
