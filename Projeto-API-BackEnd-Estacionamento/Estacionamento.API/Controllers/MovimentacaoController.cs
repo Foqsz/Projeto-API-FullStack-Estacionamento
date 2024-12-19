@@ -47,7 +47,7 @@ public class MovimentacaoController : ControllerBase
         return registro is null ? NotFound() : Ok(registro);
     }
 
-    [HttpPost("Saida/{id}/{placa}")]
+    [HttpDelete("Saida/{id}/{placa}")]
     //[Authorize]
     [SwaggerOperation(Summary = "Faz a retirada de um veículo estacionado.", Description = "Retira um veículo do estacionamento.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
