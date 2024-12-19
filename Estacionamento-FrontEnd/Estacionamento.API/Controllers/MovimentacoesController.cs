@@ -18,7 +18,7 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
         {
             var estacionadosAll = await _movimentacoesService.GetEstacionadosAll();
 
-            return estacionadosAll is null ? View("Error") : View(estacionadosAll);
+            return estacionadosAll is null ? View("Index") : View(estacionadosAll);
         }
     }
 }

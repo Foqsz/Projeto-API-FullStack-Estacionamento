@@ -1,73 +1,60 @@
-﻿ @model IEnumerable<Estacionamento_FrontEnd.Estacionamento.Core.Models.MovimentacaoViewModel>
+﻿@model IEnumerable<Estacionamento_FrontEnd.Estacionamento.Core.Models.MovimentacaoViewModel>
 
 @{
     ViewData["Title"] = "Registros de Movimentações";
 }
 <h1>@ViewData["Title"]</h1>
-
-@*<h2>Products</h2>*@
 <hr />
 
-<div class="row">
-    <div class="col-md-12">
-        <div>
-            <div class="pull-left">
-                <a asp-action="RegistrarSaida" class="btn btn-primary">
-                    <span title="Registro" class="fas fa-plus"></span> Gerar um registro
-                </a>
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        Nenhum registro encontrado no momento.
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <div class="pull-left">
+                    <a asp-action="RegistrarSaida" class="btn btn-primary">
+                        <span title="Registro" class="fas fa-plus"></span> Gerar um registro
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<br />
-<div class="panel panel-default">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PlacaVeiculo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HoraEntrada)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HoraSaida)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TipoVeiculo)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <br />
+    <div class="panel panel-default">
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PlacaVeiculo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraEntrada)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraSaida)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TipoVeiculo)
-                    </td>
-                    <td>
-                        <a asp-action="RegistrarSaida" asp-route-id="@item.Id" title="Deletar" class="btn btn-danger btn-sm">
-                            <span class="fas fa-trash-alt"></span> Deletar
-                        </a>
-                    </td>
+                    <th>@Html.DisplayNameFor(model => model.Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.PlacaVeiculo)</th>
+                    <th>@Html.DisplayNameFor(model => model.HoraEntrada)</th>
+                    <th>@Html.DisplayNameFor(model => model.HoraSaida)</th>
+                    <th>@Html.DisplayNameFor(model => model.TipoVeiculo)</th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PlacaVeiculo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.HoraEntrada)</td>
+                        <td>@Html.DisplayFor(modelItem => item.HoraSaida)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TipoVeiculo)</td>
+                        <td>
+                            <a asp-action="RegistrarSaida" asp-route-id="@item.Id" title="Deletar" class="btn btn-danger btn-sm">
+                                <span class="fas fa-trash-alt"></span> Deletar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
