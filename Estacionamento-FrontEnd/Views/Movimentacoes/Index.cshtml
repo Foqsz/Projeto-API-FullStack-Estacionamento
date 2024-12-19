@@ -48,7 +48,7 @@ else
                         <td>@Html.DisplayFor(modelItem => item.HoraSaida)</td>
                         <td>@Html.DisplayFor(modelItem => item.TipoVeiculo)</td>
                         <td>
-                            <a asp-action="RegistrarSaida" asp-route-id="@item.Id" title="Deletar" class="btn btn-danger btn-sm">
+                            <a asp-action="RegistrarSaida" asp-route-id="@item.Id" asp-route-placa="@item.PlacaVeiculo" title="Deletar" class="btn btn-danger btn-sm">
                                 <span class="fas fa-trash-alt"></span> Deletar
                             </a>
                         </td>

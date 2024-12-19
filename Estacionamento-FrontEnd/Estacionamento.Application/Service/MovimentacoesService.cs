@@ -40,9 +40,24 @@ namespace Estacionamento_FrontEnd.Estacionamento.Application.Service
             throw new NotImplementedException();
         }
 
-        public Task<MovimentacaoViewModel> RegistrarSaida()
+        public async Task<bool> RegistrarSaida(int id, string placa)
         {
-            throw new NotImplementedException();
+            var client = myHttpClient();
+
+            var response = await client.DeleteAsync($"{apiEndPoint}/Saida/{id}/{placa}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStreamAsync();
+                Console.WriteLine(content);
+
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
         }
 
         private HttpClient myHttpClient()

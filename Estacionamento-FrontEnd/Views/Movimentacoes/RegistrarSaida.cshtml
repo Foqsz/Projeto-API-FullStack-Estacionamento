@@ -1,0 +1,36 @@
+﻿@model Estacionamento_FrontEnd.Estacionamento.Core.Models.MovimentacaoViewModel
+
+<form asp-action="RegistrarSaida" method="post" class="form-horizontal">
+    @Html.AntiForgeryToken() <!-- Token anti-forgery para proteção -->
+    <!-- Campo oculto para enviar o ID da empresa -->
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <p>Registrando a saida do veículo placa <strong>@Model.PlacaVeiculo</strong>, tem certeza?</p>
+    </div>
+
+    <div class="form-group">
+        <p>Confira as informações do veiculo:</p>
+    </div>
+
+    <!-- Exibir os dados sem permitir edição (usar campo hidden para enviar os dados corretamente) -->
+
+    <div class="form-group">
+        <label for="Id">Id</label>
+        <input type="hidden" asp-for="Id" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.Id" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="PlacaVeiculo">PlacaVeiculo</label>
+        <input type="hidden" asp-for="PlacaVeiculo" /> <!-- Usar campo hidden para garantir que o valor seja enviado -->
+        <input type="text" value="@Model.PlacaVeiculo" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+        </div>
+    </div>
+</form>

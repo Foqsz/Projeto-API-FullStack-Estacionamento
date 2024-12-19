@@ -6,5 +6,5 @@ public interface IMovimentacoesService
 {
     Task<IEnumerable<MovimentacaoViewModel>> GetEstacionadosAll();
     Task<MovimentacaoViewModel> RegistrarEntrada();
-    Task<MovimentacaoViewModel> RegistrarSaida();
+    Task<bool> RegistrarSaida(int id, string placa);
 }

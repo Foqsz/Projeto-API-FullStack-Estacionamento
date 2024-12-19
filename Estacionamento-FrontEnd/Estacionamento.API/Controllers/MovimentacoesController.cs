@@ -20,5 +20,24 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
 
             return estacionadosAll is null ? View("Index") : View(estacionadosAll);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> RegistrarSaida(int id, string placa)
+        {
+            var veiculoEstacionamento = new MovimentacaoViewModel();
+
+            veiculoEstacionamento.Id = id;
+            veiculoEstacionamento.PlacaVeiculo = placa;
+
+            return View(veiculoEstacionamento);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegistrarSaida(MovimentacaoViewModel veiculo)
+        {
+            await _movimentacoesService.RegistrarSaida(veiculo.Id, veiculo.PlacaVeiculo);
+
+            return RedirectToAction("Index", "Movimentacoes");
+        }
     }
 }
