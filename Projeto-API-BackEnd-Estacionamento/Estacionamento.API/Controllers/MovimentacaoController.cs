@@ -30,31 +30,25 @@ public class MovimentacaoController : ControllerBase
     public async Task<ActionResult<IEnumerable<MovimentacaoEstacionamentoDTO>>> VeiculosEstacionados()
     {
         var estacionados = await _movimentacaoService.GetAllEstacionados();
-  
+
         _logger.LogInformation($"Veiculos listados com sucesso. {DateTime.Now}");
         return Ok(estacionados);
     }
 
     [HttpPost("Entrada")]
-    [Authorize]
+    //[Authorize]
     [SwaggerOperation(Summary = "Registra a entrada de um veículo no estacionamento.", Description = "Adiciona um veículo como estacionado.")]
-            [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> RegistrarEntrada(string placa, string tipoVeiculo)
     {
         var registro = await _movimentacaoService.RegistrarEntrada(placa, tipoVeiculo);
 
-        if (registro == null)
-        {
-            return NotFound();
-        }
-       
-        _logger.LogInformation("Registro entrada com sucesso.");
-        return Ok(registro);
+        return registro is null ? NotFound() : Ok(registro);
     }
 
     [HttpPost("Saida/{id}/{placa}")]
-    [Authorize]
+    //[Authorize]
     [SwaggerOperation(Summary = "Faz a retirada de um veículo estacionado.", Description = "Retira um veículo do estacionamento.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

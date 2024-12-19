@@ -14,6 +14,7 @@ builder.Services.AddHttpClient("EstacionamentoApi", client =>
 
 builder.Services.AddScoped<IEmpresaService, EmpresaService>();
 builder.Services.AddScoped<IVeiculoService, VeiculoService>();
+builder.Services.AddScoped<IMovimentacoesService, MovimentacoesService>();
 
 var app = builder.Build();
 
