@@ -1,6 +1,8 @@
 ﻿using Estacionamento_FrontEnd.Estacionamento.Application.Service.Interface;
 using Estacionamento_FrontEnd.Estacionamento.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Numerics;
 
 namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
 {
@@ -19,6 +21,22 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
             var estacionadosAll = await _movimentacoesService.GetEstacionadosAll();
 
             return estacionadosAll is null ? View("Index") : View(estacionadosAll);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> RegistrarEntrada()
+        {
+            ViewBag.Id = new SelectList(await _movimentacoesService.GetEstacionadosAll());
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegistrarEntrada(string placaVeiculo, string tipoVeiculo)
+        {
+            if (!ModelState.IsValid) return RedirectToAction("Index");
+            await _movimentacoesService.RegistrarEntrada(placaVeiculo, tipoVeiculo);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
