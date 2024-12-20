@@ -34,7 +34,7 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
         public async Task<ActionResult> CreateVeiculo(VeiculosViewModel veiculo)
         {
             if (!ModelState.IsValid) return View(veiculo);
-            var newVeiculo = await _veiculoService.PostVeiculo(veiculo);
+            await _veiculoService.PostVeiculo(veiculo);
             return RedirectToAction("Index");
 
         }

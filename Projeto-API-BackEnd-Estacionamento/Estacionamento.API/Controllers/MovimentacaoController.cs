@@ -35,7 +35,7 @@ public class MovimentacaoController : ControllerBase
         return Ok(estacionados);
     }
 
-    [HttpPost("Entrada")]
+    [HttpPost("Entrada/{placa}/{tipoVeiculo}")]
     //[Authorize]
     [SwaggerOperation(Summary = "Registra a entrada de um veículo no estacionamento.", Description = "Adiciona um veículo como estacionado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]

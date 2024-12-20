@@ -39,7 +39,8 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
         public async Task<ActionResult> UpdateEmpresa(int id, EmpresaViewModel empresa)
         {
             if (!ModelState.IsValid) return View(empresa);
-            var empresaExisting = await _empresaService.GetEmpresaById(id);
+
+            await _empresaService.GetEmpresaById(id);
 
             if (empresa is null) return View(empresa);
             await _empresaService.PutEmpresa(id, empresa);
@@ -58,7 +59,7 @@ namespace Estacionamento_FrontEnd.Estacionamento.API.Controllers
         public async Task<ActionResult> CreateEmpresa(EmpresaViewModel empresa)
         {
             if (!ModelState.IsValid) return View(empresa);
-            var newEmpresa = await _empresaService.PostEmpresa(empresa);
+            await _empresaService.PostEmpresa(empresa);
             return RedirectToAction("Index");
         }
 
