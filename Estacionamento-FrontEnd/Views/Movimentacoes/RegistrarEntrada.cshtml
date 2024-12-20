@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Estacionamento_FrontEnd.Estacionamento.Core.Models.MovimentacaoViewModel
+
+@{
+    ViewData["Title"] = "Registrar Entrada";
+}
+
+<h2>Registrar Entrada</h2>
+
+<form asp-action="RegistrarEntrada" method="post" class="form-horizontal">
+    @Html.AntiForgeryToken() <!-- Token anti-forgery para proteção -->
+
+    <div class="form-group">
+        <label asp-for="PlacaVeiculo" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="PlacaVeiculo" class="form-control" />
+            <span asp-validation-for="PlacaVeiculo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="TipoVeiculo" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="TipoVeiculo" class="form-control" />
+            <span asp-validation-for="TipoVeiculo" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
