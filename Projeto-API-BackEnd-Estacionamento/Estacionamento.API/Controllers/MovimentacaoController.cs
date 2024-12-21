@@ -23,6 +23,8 @@ public class MovimentacaoController : ControllerBase
         _mapper = mapper;
     }
 
+    #region Veiculos Estacionados
+
     [HttpGet("Estacionados")]
     [SwaggerOperation(Summary = "Lista todos os veículos estacionados.", Description = "Retorna todos os veículos que estão estacionados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -35,6 +37,10 @@ public class MovimentacaoController : ControllerBase
         return Ok(estacionados);
     }
 
+    #endregion
+
+    #region Entrada de Veiculos
+
     [HttpPost("Entrada/{placa}/{tipoVeiculo}")]
     //[Authorize]
     [SwaggerOperation(Summary = "Registra a entrada de um veículo no estacionamento.", Description = "Adiciona um veículo como estacionado.")]
@@ -46,6 +52,10 @@ public class MovimentacaoController : ControllerBase
 
         return registro is null ? NotFound() : Ok(registro);
     }
+
+    #endregion
+
+    #region Saida de veiculos
 
     [HttpDelete("Saida/{id}/{placa}")]
     //[Authorize]
@@ -63,4 +73,6 @@ public class MovimentacaoController : ControllerBase
 
         return Ok(registro);
     }
+
+    #endregion
 }
