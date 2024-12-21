@@ -84,7 +84,7 @@ public class EmpresaService : IEmpresaService
                 return await JsonSerializer.DeserializeAsync<EmpresaViewModel>(apiResponse, _serializerOptions);
             }
             else
-            {  
+            {
                 return null;
             }
         }
@@ -98,7 +98,6 @@ public class EmpresaService : IEmpresaService
         {
             if (response.IsSuccessStatusCode)
             {
-                var apiResponse = await response.Content.ReadAsStreamAsync();
                 return true;
             }
             else

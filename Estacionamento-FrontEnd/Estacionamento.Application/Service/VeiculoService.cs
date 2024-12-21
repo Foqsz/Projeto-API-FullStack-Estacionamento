@@ -100,7 +100,6 @@ namespace Estacionamento_FrontEnd.Estacionamento.Application.Service
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var apiResponse = await response.Content.ReadAsStreamAsync();
                     return true;
                 }
                 else

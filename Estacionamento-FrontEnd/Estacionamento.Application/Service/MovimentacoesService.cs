@@ -67,7 +67,6 @@ namespace Estacionamento_FrontEnd.Estacionamento.Application.Service
             }
         }
 
-
         public async Task<bool> RegistrarSaida(int id, string placa)
         {
             var client = myHttpClient();
