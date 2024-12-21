@@ -22,6 +22,8 @@ public class EmpresasController : ControllerBase
         _mapper = mapper;
     }
 
+    #region Listar Todas as Empresas
+
     [HttpGet("ListarEmpresas")]
     //[Authorize]
     [SwaggerOperation(Summary = "Lista todas as empresas.", Description = "Retorna todas as empresas do banco de dados")]
@@ -43,6 +45,10 @@ public class EmpresasController : ControllerBase
         return Ok(empresaMapper);
     }
 
+    #endregion
+
+    #region Checar uma empresa pelo ID
+
     [HttpGet("ChecarEmpresa/{id}")]
     [SwaggerOperation(Summary = "Checa uma empresa de acordo com o ID informado", Description = "Retorna as informações da empresa com o id informado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -61,6 +67,10 @@ public class EmpresasController : ControllerBase
         return Ok(empresaId);
     }
 
+    #endregion
+
+    #region Criar uma empresa
+
     [HttpPost("CriarEmpresa")]
     [SwaggerOperation(Summary = "Adiciona uma empresa ao sistema.", Description = "Retorna a criação de uma empresa.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -78,6 +88,10 @@ public class EmpresasController : ControllerBase
         _logger.LogInformation("Empresa criada com sucesso.");
         return CreatedAtAction(nameof(GetEmpresaId), new { id = createEmpresa.Id }, createEmpresa);
     }
+
+    #endregion
+
+    #region Editar uma empresa
 
     [HttpPut("EditarEmpresa/{id}")]
     [SwaggerOperation(Summary = "Atualiza as informações de uma empresa", Description = "Edita as informações da empresa.")]
@@ -106,6 +120,10 @@ public class EmpresasController : ControllerBase
         return Ok(empresaAtualizada);
     }
 
+    #endregion
+
+    #region Deletar uma Empresa
+
     [HttpDelete("DeletarEmpresa/{id}")]
     [SwaggerOperation(Summary = "Remove uma empresa do sistema.", Description = "Deleta uma empresa desejada.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -116,4 +134,6 @@ public class EmpresasController : ControllerBase
          
         return Ok(deleteEmpresa);
     }
+
+    #endregion
 }
