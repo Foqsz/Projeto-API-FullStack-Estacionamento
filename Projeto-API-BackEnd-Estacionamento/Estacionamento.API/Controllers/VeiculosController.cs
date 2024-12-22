@@ -39,7 +39,7 @@ public class VeiculosController : ControllerBase
 
     }
     #endregion
-    
+
     #region Checar veículo pelo ID
     /// <summary>
     /// Lista um veículo de acordo com o ID informado.
@@ -54,7 +54,7 @@ public class VeiculosController : ControllerBase
     public async Task<ActionResult<VeiculosDTO>> GetVeiculoById(int id)
     {
         var veiculoId = await _veiculosService.GetVeiculoId(id);
- 
+
         if (veiculoId == null)
         {
             _logger.LogError($"Não foi possível listar o veiculo id {id}, não localizado..");
@@ -65,7 +65,7 @@ public class VeiculosController : ControllerBase
         return Ok(veiculoId);
     }
     #endregion
-    
+
     #region Cadastrar Veículo
     /// <summary>
     /// Cadastra um veiculo no sistema.
@@ -91,7 +91,7 @@ public class VeiculosController : ControllerBase
         return CreatedAtAction(nameof(GetVeiculoById), new { id = registerVeiculo.Id }, registerVeiculo);
     }
     #endregion
-    
+
     #region Atualizar Veículo
     /// <summary>
     /// Atualiza um veiculo no banco de dados.
@@ -142,8 +142,8 @@ public class VeiculosController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteVeiculo(int id)
-    {   
-        var deleteVeiculo = await _veiculosService.DeleteVeiculo(id);
+    {
+        await _veiculosService.DeleteVeiculo(id);
 
         _logger.LogInformation("Veiculo deletado com sucesso.");
         return Ok("Veículo deletado com sucesso.");
