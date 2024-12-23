@@ -94,17 +94,8 @@ public class EmpresaService : IEmpresaService
     {
         var client = myHttpClient();
 
-        using (var response = await client.DeleteAsync($"{apiEndPoint}/DeletarEmpresa/{id}"))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        using var response = await client.DeleteAsync($"{apiEndPoint}/DeletarEmpresa/{id}");
+        return response.IsSuccessStatusCode;
     }
 
     private HttpClient myHttpClient()
