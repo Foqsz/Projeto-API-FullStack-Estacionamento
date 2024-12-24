@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Hybrid;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -12,14 +13,17 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.API.Controllers;
 public class EmpresasController : ControllerBase
 {
     private readonly IEmpresasService _empresasService;
+    private readonly HybridCache _hybridCache;
+    private readonly string cacheKey = "empresas";
     private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
-    public EmpresasController(IEmpresasService empresasService, ILogger<EmpresasController> logger, IMapper mapper)
+    public EmpresasController(IEmpresasService empresasService, ILogger<EmpresasController> logger, IMapper mapper, HybridCache hybridCache)
     {
         _empresasService = empresasService;
         _logger = logger;
         _mapper = mapper;
+        _hybridCache = hybridCache;
     }
 
     #region Listar Todas as Empresas
@@ -29,20 +33,23 @@ public class EmpresasController : ControllerBase
     [SwaggerOperation(Summary = "Lista todas as empresas.", Description = "Retorna todas as empresas do banco de dados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<EmpresaDTO>>> GetEmpresasAll()
+    public async Task<IEnumerable<EmpresaDTO>> GetEmpresasAll()
     {
-        var empresasAll = await _empresasService.GetAllEmpresasService();
-
-        if (empresasAll == null)
-        {
-            _logger.LogError("Controller: Nenhuma empresa localizada.");
-            return NotFound();
-        }
-
-        var empresaMapper = _mapper.Map<IEnumerable<EmpresaDTO>>(empresasAll);
-
-        _logger.LogInformation("Empresas listadas com sucesso.");
-        return Ok(empresaMapper);
+        return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
+            {
+                await Task.Delay(3000);
+                var empresas = await _empresasService.GetAllEmpresasService();
+                return empresas;
+            },
+            new HybridCacheEntryOptions
+            {
+                //tempo expiração cache distribuido
+                Expiration = TimeSpan.FromSeconds(20),
+                //tempo expiração cache memoria
+                LocalCacheExpiration = TimeSpan.FromSeconds(25),
+            },
+            new[] { "empresas-tag" }
+        );
     }
 
     #endregion
@@ -50,21 +57,29 @@ public class EmpresasController : ControllerBase
     #region Checar uma empresa pelo ID
 
     [HttpGet("ChecarEmpresa/{id}")]
-    [SwaggerOperation(Summary = "Checa uma empresa de acordo com o ID informado", Description = "Retorna as informações da empresa com o id informado.")]
+    [SwaggerOperation(Summary = "Checa uma empresa de acordo com o ID informado",
+                      Description = "Retorna as informações da empresa com o id informado.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<EmpresaDTO>> GetEmpresaId(int id)
     {
-        var empresaId = await _empresasService.GetEmpresaIdService(id);
+        string cacheKey = $"empresa-{id}";
 
-        if (empresaId == null)
-        {
-            _logger.LogError($"Empresa Id {id} não localizada");
-            return NotFound();
-        }
-
-        _logger.LogInformation($"Empresa Id {id} localizada com sucesso.");
-        return Ok(empresaId);
+        return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
+            {
+                await Task.Delay(3000);
+                var empresa = await _empresasService.GetEmpresaIdService(id);
+                return empresa;
+            },
+            new HybridCacheEntryOptions
+            {
+                //tempo expiração cache distribuido
+                Expiration = TimeSpan.FromSeconds(20),
+                //tempo expiração cache memoria
+                LocalCacheExpiration = TimeSpan.FromSeconds(25),
+            },
+            new[] { "empresa-tag" }
+        );
     }
 
     #endregion
@@ -84,7 +99,8 @@ public class EmpresasController : ControllerBase
             _logger.LogError("Não foi possível criar a empresa informada.");
             return NotFound();
         }
-        
+
+        await _hybridCache.RemoveAsync(cacheKey);
         _logger.LogInformation("Empresa criada com sucesso.");
         return CreatedAtAction(nameof(GetEmpresaId), new { id = createEmpresa.Id }, createEmpresa);
     }
@@ -114,9 +130,10 @@ public class EmpresasController : ControllerBase
         }
 
         var updateEmpresa = await _empresasService.UpdateEmpresaService(id, empresa);
-          
+
         var empresaAtualizada = _mapper.Map<EmpresaDTO>(updateEmpresa);
 
+        await _hybridCache.RemoveAsync(cacheKey);
         return Ok(empresaAtualizada);
     }
 
@@ -129,9 +146,10 @@ public class EmpresasController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> DeleteEmpresa(int id)
-    { 
+    {
         var deleteEmpresa = await _empresasService.DeleteEmpresaService(id);
-         
+
+        await _hybridCache.RemoveAsync(cacheKey);
         return Ok(deleteEmpresa);
     }
 
