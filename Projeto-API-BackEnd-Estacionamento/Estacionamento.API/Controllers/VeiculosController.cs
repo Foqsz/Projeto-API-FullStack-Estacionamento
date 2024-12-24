@@ -109,6 +109,7 @@ public class VeiculosController : ControllerBase
             return NotFound();
         }
 
+        await _hybridCache.RemoveAsync(cacheKey);
         _logger.LogInformation("Veiculo cadastrado com sucesso no sistema.");
         return CreatedAtAction(nameof(GetVeiculoById), new { id = registerVeiculo.Id }, registerVeiculo);
     }
@@ -147,6 +148,7 @@ public class VeiculosController : ControllerBase
 
         var veiculoAtualizado = _mapper.Map<VeiculosDTO>(updateVeiculo);
 
+        await _hybridCache.RemoveAsync(cacheKey);
         _logger.LogInformation("O veiculo foi atualizado com sucesso.");
         return Ok(veiculoAtualizado);
     }
@@ -167,6 +169,7 @@ public class VeiculosController : ControllerBase
     {
         await _veiculosService.DeleteVeiculo(id);
 
+        await _hybridCache.RemoveAsync(cacheKey);
         _logger.LogInformation("Veiculo deletado com sucesso.");
         return Ok("Veículo deletado com sucesso.");
     }
