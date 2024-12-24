@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Hybrid;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -12,14 +13,17 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.API.Controllers;
 public class VeiculosController : ControllerBase
 {
     private readonly IVeiculosService _veiculosService;
+    private readonly HybridCache _hybridCache;
+    private readonly string cacheKey = "veiculos";
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
 
-    public VeiculosController(IVeiculosService veiculosService, IMapper mapper, ILogger<VeiculosController> logger)
+    public VeiculosController(IVeiculosService veiculosService, IMapper mapper, ILogger<VeiculosController> logger, HybridCache hybridCache)
     {
         _veiculosService = veiculosService;
         _mapper = mapper;
         _logger = logger;
+        _hybridCache = hybridCache;
     }
 
     #region Listar todos os veículos no sistema
@@ -31,12 +35,23 @@ public class VeiculosController : ControllerBase
     [SwaggerOperation(Summary = "Lista todos os veículos.", Description = "Retorna todos os veículos do banco de dados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<VeiculosDTO>>> GetVeiculosAll()
+    public async Task<IEnumerable<VeiculosDTO>> GetVeiculosAll()
     {
-        var listarVeiculos = await _veiculosService.GetAllVeiculos();
-
-        return Ok(listarVeiculos);
-
+        return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
+            {
+                await Task.Delay(3000);
+                var veiculos = await _veiculosService.GetAllVeiculos();
+                return veiculos;
+            },
+            new HybridCacheEntryOptions
+            {
+                //tempo expiração cache distribuido
+                Expiration = TimeSpan.FromSeconds(20),
+                //tempo expiração cache memoria
+                LocalCacheExpiration = TimeSpan.FromSeconds(25),
+            },
+            new[] { "veiculos-tag" }
+        );
     }
     #endregion
 

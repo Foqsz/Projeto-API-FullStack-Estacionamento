@@ -8,6 +8,7 @@ using Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Data;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repository;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Infrastructure.Repository.Interface;
 using System.Text;
+using Microsoft.Extensions.Caching.Hybrid;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,11 +80,11 @@ builder.Services.AddAuthentication("Bearer")
     {
         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
         {
-            ValidateIssuer = false,  
-            ValidateAudience = false, 
-            ValidateLifetime = true,  
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"])), // Chave secreta usada para assinar o JWT
-            ClockSkew = TimeSpan.Zero  
+            ClockSkew = TimeSpan.Zero
         };
     });
 
@@ -101,6 +102,31 @@ builder.Services.AddScoped<IVeiculosRepository, VeiculosRepository>();
 builder.Services.AddScoped<IEmpresasService, EmpresasService>();
 builder.Services.AddScoped<IVeiculosService, VeiculosService>();
 builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
+
+//cache
+
+builder.Services.AddMemoryCache();
+
+//cache distribuido usando o redis no docker
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+});
+
+//cache hibrido
+
+#pragma warning disable EXTEXP0018
+builder.Services.AddHybridCache(options =>
+{
+    options.MaximumPayloadBytes = 1024 * 1024;
+    options.MaximumKeyLength = 1024;
+    options.DefaultEntryOptions = new HybridCacheEntryOptions
+    {
+        Expiration = TimeSpan.FromSeconds(20),
+        LocalCacheExpiration = TimeSpan.FromSeconds(20),
+    };
+});
+#pragma warning restore EXTEXP0018
 
 //token jwt
 builder.Services.AddTransient<TokenService>();
