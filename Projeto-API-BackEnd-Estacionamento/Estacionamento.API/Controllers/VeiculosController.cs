@@ -68,16 +68,23 @@ public class VeiculosController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<VeiculosDTO>> GetVeiculoById(int id)
     {
-        var veiculoId = await _veiculosService.GetVeiculoId(id);
+        string cacheKey = $"veiculo-{id}";
 
-        if (veiculoId == null)
-        {
-            _logger.LogError($"Não foi possível listar o veiculo id {id}, não localizado..");
-            return NotFound();
-        }
-
-        _logger.LogInformation($"Veiculo id {id} checado com sucesso.");
-        return Ok(veiculoId);
+        return await _hybridCache.GetOrCreateAsync<VeiculosDTO>(cacheKey, async cancellationToken =>
+            {
+                await Task.Delay(3000);
+                var veiculo = await _veiculosService.GetVeiculoId(id);
+                return veiculo;
+            },
+            new HybridCacheEntryOptions
+            {
+                //tempo expiração cache distribuido
+                Expiration = TimeSpan.FromSeconds(20),
+                //tempo expiração cache memoria
+                LocalCacheExpiration = TimeSpan.FromSeconds(25),
+            },
+            new[] { $"veiculo-tag-{id}" }
+        );
     }
     #endregion
 
