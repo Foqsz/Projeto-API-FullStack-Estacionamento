@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Hybrid;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.DTOs;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -13,14 +14,17 @@ namespace Projeto_API_BackEnd_Estacionamento.Estacionamento.API.Controllers;
 public class MovimentacaoController : ControllerBase
 {
     private readonly IMovimentacaoService _movimentacaoService;
+    private readonly HybridCache _hybridCache;
+    private readonly string cacheKey = "movimentacao";
     private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
-    public MovimentacaoController(IMovimentacaoService movimentacaoService, ILogger<MovimentacaoController> logger, IMapper mapper)
+    public MovimentacaoController(IMovimentacaoService movimentacaoService, ILogger<MovimentacaoController> logger, IMapper mapper, HybridCache hybridCache)
     {
         _movimentacaoService = movimentacaoService;
         _logger = logger;
         _mapper = mapper;
+        _hybridCache = hybridCache;
     }
 
     #region Veiculos Estacionados
@@ -29,12 +33,23 @@ public class MovimentacaoController : ControllerBase
     [SwaggerOperation(Summary = "Lista todos os veículos estacionados.", Description = "Retorna todos os veículos que estão estacionados")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<MovimentacaoEstacionamentoDTO>>> VeiculosEstacionados()
+    public async Task<IEnumerable<MovimentacaoEstacionamentoDTO>> VeiculosEstacionados()
     {
-        var estacionados = await _movimentacaoService.GetAllEstacionados();
-
-        _logger.LogInformation($"Veiculos listados com sucesso. {DateTime.Now}");
-        return Ok(estacionados);
+        return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
+            {
+                await Task.Delay(3000);
+                var veiculos = await _movimentacaoService.GetAllEstacionados();
+                return veiculos;
+            },
+            new HybridCacheEntryOptions
+            {
+                //tempo expiração cache distribuido
+                Expiration = TimeSpan.FromSeconds(20),
+                //tempo expiração cache memoria
+                LocalCacheExpiration = TimeSpan.FromSeconds(25),
+            },
+            new[] { "movimentacao-tag" }
+        );
     }
 
     #endregion
