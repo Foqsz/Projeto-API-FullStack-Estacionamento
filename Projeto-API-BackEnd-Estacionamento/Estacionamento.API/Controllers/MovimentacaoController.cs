@@ -65,6 +65,7 @@ public class MovimentacaoController : ControllerBase
     {
         var registro = await _movimentacaoService.RegistrarEntrada(placa, tipoVeiculo);
 
+        await _hybridCache.RemoveAsync(cacheKey);   
         return registro is null ? NotFound() : Ok(registro);
     }
 
@@ -86,6 +87,7 @@ public class MovimentacaoController : ControllerBase
             return NotFound();
         }
 
+        await _hybridCache.RemoveAsync(cacheKey);
         return Ok(registro);
     }
 
