@@ -48,7 +48,7 @@ public class EmpresasController : ControllerBase
                 //tempo expiração cache memoria
                 LocalCacheExpiration = TimeSpan.FromSeconds(25),
             },
-            new[] { "empresas-tag" }
+            ["empresas-tag"]
         );
     }
 
@@ -78,7 +78,7 @@ public class EmpresasController : ControllerBase
                 //tempo expiração cache memoria
                 LocalCacheExpiration = TimeSpan.FromSeconds(25),
             },
-            new[] { "empresa-tag" }
+            ["empresa-tag"]
         );
     }
 
