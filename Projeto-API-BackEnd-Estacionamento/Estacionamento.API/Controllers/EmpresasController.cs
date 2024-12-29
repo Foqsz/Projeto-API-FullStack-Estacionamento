@@ -37,14 +37,14 @@ public class EmpresasController : ControllerBase
     {
         return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
             {
-                await Task.Delay(3000);
+                await Task.Delay(2000);
                 var empresas = await _empresasService.GetAllEmpresasService();
                 return empresas;
             },
             new HybridCacheEntryOptions
             {
                 //tempo expiração cache distribuido
-                Expiration = TimeSpan.FromSeconds(20),
+                Expiration = TimeSpan.FromSeconds(30),
                 //tempo expiração cache memoria
                 LocalCacheExpiration = TimeSpan.FromSeconds(25),
             },
@@ -67,14 +67,14 @@ public class EmpresasController : ControllerBase
 
         return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
             {
-                await Task.Delay(3000);
+                await Task.Delay(2000);
                 var empresa = await _empresasService.GetEmpresaIdService(id);
                 return empresa;
             },
             new HybridCacheEntryOptions
             {
                 //tempo expiração cache distribuido
-                Expiration = TimeSpan.FromSeconds(20),
+                Expiration = TimeSpan.FromSeconds(30),
                 //tempo expiração cache memoria
                 LocalCacheExpiration = TimeSpan.FromSeconds(25),
             },
