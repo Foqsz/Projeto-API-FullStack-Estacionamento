@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testes-API-BackEnd", "Teste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estacionamento-FrontEnd", "Estacionamento-FrontEnd\Estacionamento-FrontEnd.csproj", "{E9B02D92-0D54-4FCF-A694-9190AC612B5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto-API-FullStack-Estacionamento.AppHost", "Projeto-API-FullStack-Estacionamento.AppHost\Projeto-API-FullStack-Estacionamento.AppHost.csproj", "{85880D84-ACD2-4048-BD80-BEE180FE2EE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto-API-FullStack-Estacionamento.ServiceDefaults", "Projeto-API-FullStack-Estacionamento.ServiceDefaults\Projeto-API-FullStack-Estacionamento.ServiceDefaults.csproj", "{B226E3D2-ADEF-4C8A-85BE-8E0054775788}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{E9B02D92-0D54-4FCF-A694-9190AC612B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9B02D92-0D54-4FCF-A694-9190AC612B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9B02D92-0D54-4FCF-A694-9190AC612B5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85880D84-ACD2-4048-BD80-BEE180FE2EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85880D84-ACD2-4048-BD80-BEE180FE2EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85880D84-ACD2-4048-BD80-BEE180FE2EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85880D84-ACD2-4048-BD80-BEE180FE2EE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B226E3D2-ADEF-4C8A-85BE-8E0054775788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B226E3D2-ADEF-4C8A-85BE-8E0054775788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B226E3D2-ADEF-4C8A-85BE-8E0054775788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B226E3D2-ADEF-4C8A-85BE-8E0054775788}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
