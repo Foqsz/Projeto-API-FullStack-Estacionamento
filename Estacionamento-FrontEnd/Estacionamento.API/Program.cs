@@ -3,6 +3,8 @@ using Estacionamento_FrontEnd.Estacionamento.Application.Service.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -17,6 +19,8 @@ builder.Services.AddScoped<IVeiculoService, VeiculoService>();
 builder.Services.AddScoped<IMovimentacoesService, MovimentacoesService>();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
