@@ -26,4 +26,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Projeto-API-FullStack-Estacionamento.ServiceDefaults\Projeto-API-FullStack-Estacionamento.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>

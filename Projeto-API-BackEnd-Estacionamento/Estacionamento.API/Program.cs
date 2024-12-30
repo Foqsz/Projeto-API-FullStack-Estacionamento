@@ -12,6 +12,8 @@ using Microsoft.Extensions.Caching.Hybrid;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Adicionar serviços ao container
 builder.Services.AddControllers();
 
@@ -137,6 +139,8 @@ builder.Services.AddAutoMapper(typeof(VeiculosDTOMappingProfile));
 builder.Services.AddAutoMapper(typeof(MovimentacaoEstacionamentoDTOMappingProfile));
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configuração do pipeline HTTP
 if (app.Environment.IsDevelopment())
