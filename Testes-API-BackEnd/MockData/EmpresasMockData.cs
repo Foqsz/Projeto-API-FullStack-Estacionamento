@@ -17,7 +17,7 @@ public class EmpresasMockData
             {
                 Id = 1,
                 Nome = "VV Alto Center",
-                CNPJ = 189647772,
+                CNPJ = "189647772",
                 Endereco = "Rua Flamengo",
                 Telefone = "83994195048",
                 qVagasMotos = 10,
@@ -27,7 +27,7 @@ public class EmpresasMockData
             {
                 Id = 2,
                 Nome = "VV Auto Premium",
-                CNPJ = 238476552,
+                CNPJ = "238476552",
                 Endereco = "Avenida Paulista",
                 Telefone = "83999988877",
                 qVagasMotos = 15,
@@ -37,7 +37,7 @@ public class EmpresasMockData
             {
                 Id = 3,
                 Nome = "VV Service Hub",
-                CNPJ = 194867412,
+                CNPJ = "194867412",
                 Endereco = "Rua das Palmeiras",
                 Telefone = "83996655443",
                 qVagasMotos = 5,

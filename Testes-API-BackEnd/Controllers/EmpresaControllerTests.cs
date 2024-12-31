@@ -68,7 +68,7 @@ public class EmpresaControllerTests
     {
         // Arrange
         var empresaService = new Mock<IEmpresasService>();
-        var empresaMock = new EmpresaDTO { Id = 1, Nome = "VV Alto Center", CNPJ = 189647772, Endereco = "Rua Flamengo" };
+        var empresaMock = new EmpresaDTO { Id = 1, Nome = "VV Alto Center", CNPJ = "189647772", Endereco = "Rua Flamengo" };
         empresaService.Setup(service => service.GetEmpresaIdService(It.IsAny<int>())).ReturnsAsync(empresaMock);
 
         var logger = new Mock<ILogger<EmpresasController>>();
@@ -117,7 +117,7 @@ public class EmpresaControllerTests
         var newEmpresaMock = new EmpresaDTO
         {
             Nome = "Pedro Cars",
-            CNPJ = 12312344,
+            CNPJ = "12312344",
             Endereco = "Rua Milk Shake",
             Telefone = "9874123",
             qVagasMotos = 20,
@@ -158,7 +158,7 @@ public class EmpresaControllerTests
         {
             Id = 0,
             Nome = "Pedro Cars",
-            CNPJ = 12312344,
+            CNPJ = "12312344",
             Endereco = "Rua Milk Shake",
             Telefone = "9874123",
             qVagasCarros = 20,
@@ -193,7 +193,7 @@ public class EmpresaControllerTests
         {
             Id = 5,
             Nome = "Pedro Cars",
-            CNPJ = 12312344,
+            CNPJ = "12312344",
             Endereco = "Rua Milk Shake",
             Telefone = "9874123",
             qVagasMotos = 20,
@@ -205,7 +205,7 @@ public class EmpresaControllerTests
             {
                 Id = 5,
                 Nome = "Pedro Cars",
-                CNPJ = 12312344,
+                CNPJ = "12312344",
                 Endereco = "Rua Milk Shake",
                 Telefone = "9874123",
                 qVagasMotos = 20,
@@ -240,7 +240,7 @@ public class EmpresaControllerTests
         {
             Id = 5,
             Nome = "Pedro Cars",
-            CNPJ = 12312344,
+            CNPJ = "12312344",
             Endereco = "Rua Milk Shake",
             Telefone = "9874123",
             qVagasMotos = 20,
@@ -281,7 +281,7 @@ public class EmpresaControllerTests
         {
             Id = 5,
             Nome = "Pedro Cars",
-            CNPJ = 12312344,
+            CNPJ = "12312344",
             Endereco = "Rua Milk Shake",
             Telefone = "9874123",
             qVagasMotos = 20,
@@ -324,7 +324,7 @@ public class EmpresaControllerTests
             {
                 Id = 5,
                 Nome = "Pedro Cars",
-                CNPJ = 12312344,
+                CNPJ = "12312344",
                 Endereco = "Rua Milk Shake",
                 Telefone = "9874123",
                 qVagasMotos = 20,
@@ -356,7 +356,7 @@ public class EmpresaControllerTests
         {
             Id = 5,
             Nome = "Pedro Cars",
-            CNPJ = 12312344,
+            CNPJ = "12312344",
             Endereco = "Rua Milk Shake",
             Telefone = "9874123",
             qVagasMotos = 20,
@@ -377,7 +377,7 @@ public class EmpresaControllerTests
         // Assert
         var okDeleteEmpresaNotFound = result as OkObjectResult;
         Assert.NotNull(okDeleteEmpresaNotFound);  // Verifica se o resultado não é nulo
-        Assert.Equal(500, okDeleteEmpresaNotFound.StatusCode);  // Verifica se o status é 500  
+        Assert.Equal(200, okDeleteEmpresaNotFound.StatusCode);  // Verifica se o status é 200  
         Assert.Equal("Empresa não encontrada no banco de dados.", okDeleteEmpresaNotFound.Value);  // Verifica se o status é 200  
     }
 }
