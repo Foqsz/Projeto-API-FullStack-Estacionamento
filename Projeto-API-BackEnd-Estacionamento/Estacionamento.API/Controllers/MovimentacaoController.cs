@@ -37,7 +37,7 @@ public class MovimentacaoController : ControllerBase
     {
         return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
             {
-                await Task.Delay(3000);
+                await Task.Delay(1000);
                 var veiculos = await _movimentacaoService.GetAllEstacionados();
                 return veiculos;
             },

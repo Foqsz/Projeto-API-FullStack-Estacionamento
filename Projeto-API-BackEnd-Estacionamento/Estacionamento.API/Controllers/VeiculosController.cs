@@ -39,7 +39,7 @@ public class VeiculosController : ControllerBase
     {
         return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
             {
-                await Task.Delay(3000);
+                await Task.Delay(1000);
                 var veiculos = await _veiculosService.GetAllVeiculos();
                 return veiculos;
             },
@@ -72,7 +72,7 @@ public class VeiculosController : ControllerBase
 
         return await _hybridCache.GetOrCreateAsync<VeiculosDTO>(cacheKey, async cancellationToken =>
             {
-                await Task.Delay(3000);
+                await Task.Delay(1000);
                 var veiculo = await _veiculosService.GetVeiculoId(id);
                 return veiculo;
             },

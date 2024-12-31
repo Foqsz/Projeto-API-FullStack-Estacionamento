@@ -37,7 +37,7 @@ public class EmpresasController : ControllerBase
     {
         return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
             {
-                await Task.Delay(2000);
+                await Task.Delay(1000);
                 var empresas = await _empresasService.GetAllEmpresasService();
                 return empresas;
             },
@@ -67,7 +67,7 @@ public class EmpresasController : ControllerBase
 
         return await _hybridCache.GetOrCreateAsync(cacheKey, async cancellationToken =>
             {
-                await Task.Delay(2000);
+                await Task.Delay(1000);
                 var empresa = await _empresasService.GetEmpresaIdService(id);
                 return empresa;
             },
