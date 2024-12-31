@@ -14,8 +14,9 @@ public class Empresa
     [MaxLength(100, ErrorMessage = "O nome pode ter no máximo 100 caracteres.")]
     public string Nome { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "O CNPJ é obrigatório.")] 
-    public int CNPJ { get; set; }  
+    [Required(ErrorMessage = "O CNPJ é obrigatório.")]
+    [RegularExpression(@"^\d{14}$", ErrorMessage = "CNPJ inválido. Deve conter exatamente 14 números.")]
+    public string CNPJ { get; set; }  
 
     [Required(ErrorMessage = "O Endereço é obrigatório.")]
     [MaxLength(200, ErrorMessage = "O endereço pode ter no máximo 200 caracteres.")]
