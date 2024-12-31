@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.API.Controllers;
@@ -20,14 +21,15 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         //Act
         var result = await sut.GetVeiculosAll();
 
         //Assert
-        var okResultVeiculos = result.Result as OkObjectResult;
+        var okResultVeiculos = result as OkObjectResult;
         Assert.NotNull(okResultVeiculos);
         Assert.Equal(200, okResultVeiculos.StatusCode);
     }
@@ -41,14 +43,15 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         //Act
         var result = await sut.GetVeiculosAll();
 
         //Assert
-        Assert.IsType<NotFoundResult>(result.Result);
+        Assert.IsType<NotFoundResult>(result);
     }
 
     [Fact]
@@ -61,8 +64,9 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         //Act
         var result = await sut.GetVeiculoById(1);
@@ -83,8 +87,9 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         //Act
         var result = await sut.GetVeiculoById(1);
@@ -115,8 +120,9 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         //Act
         var result = await sut.PostVeiculo(newVeiculoMock);
@@ -148,8 +154,9 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         //Act
         var result = await sut.PostVeiculo(newVeiculoMock);
@@ -181,11 +188,12 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
         // Configurar o Mock do mapper se necessário
         mapper.Setup(m => m.Map<VeiculosDTO>(It.IsAny<VeiculosDTO>())).Returns(updateVeiculoMock);
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         // Act
         var result = await sut.PutVeiculo(1, updateVeiculoMock);
@@ -217,11 +225,12 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
         // Configurar o Mock do mapper se necessário
         mapper.Setup(m => m.Map<VeiculosDTO>(It.IsAny<VeiculosDTO>())).Returns(updateVeiculoMock);
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         // Act
         var result = await sut.PutVeiculo(2, updateVeiculoMock);
@@ -253,11 +262,12 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
         // Configurar o Mock do mapper se necessário
         mapper.Setup(m => m.Map<VeiculosDTO>(It.IsAny<VeiculosDTO>())).Returns(updateVeiculoMock);
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         // Act
         var result = await sut.PutVeiculo(3, updateVeiculoMock);
@@ -288,9 +298,10 @@ public class VeiculosControllerTests
         veiculoService.Setup(service => service.DeleteVeiculo(1));
 
         var logger = new Mock<ILogger<VeiculosController>>();
-        var mapper = new Mock<IMapper>(); 
+        var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         // Act
         var result = await sut.DeleteVeiculo(1);
@@ -321,8 +332,9 @@ public class VeiculosControllerTests
 
         var logger = new Mock<ILogger<VeiculosController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object);
+        var sut = new VeiculosController(veiculoService.Object, mapper.Object, logger.Object, hybridCache.Object);
 
         // Act
         var result = await sut.DeleteVeiculo(2);

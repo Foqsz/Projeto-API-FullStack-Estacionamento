@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.API.Controllers;
@@ -21,14 +22,15 @@ public class MovimentacaoControllerTests
 
         var logger = new Mock<ILogger<MovimentacaoController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object);
+        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         //Act
         var result = await sut.VeiculosEstacionados();
 
         //Assert
-        var okResult = result.Result as OkObjectResult;
+        var okResult = result as OkObjectResult;
         Assert.NotNull(okResult);
         Assert.Equal(200, okResult.StatusCode);
     }
@@ -42,14 +44,15 @@ public class MovimentacaoControllerTests
 
         var logger = new Mock<ILogger<MovimentacaoController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object);
+        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         //Act
         var result = await sut.VeiculosEstacionados();
 
         //Assert
-        var okResultNotFound = result.Result as NotFoundResult;
+        var okResultNotFound = result as NotFoundResult;
         Assert.NotNull(okResultNotFound);
         Assert.Equal(404, okResultNotFound.StatusCode);
     }
@@ -73,8 +76,9 @@ public class MovimentacaoControllerTests
 
         var logger = new Mock<ILogger<MovimentacaoController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object);
+        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         //Act
         var result = await sut.RegistrarEntrada("12AS32", "SEDAN");
@@ -104,8 +108,9 @@ public class MovimentacaoControllerTests
 
         var logger = new Mock<ILogger<MovimentacaoController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object);
+        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         //Act
         var result = await sut.RegistrarEntrada("45A7SS", "SEDAN");
@@ -135,8 +140,9 @@ public class MovimentacaoControllerTests
 
         var logger = new Mock<ILogger<MovimentacaoController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object);
+        var sut = new MovimentacaoController(movimentacaoService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         //Act
         var result = await sut.RegistrarSaida(1, "12AS32");

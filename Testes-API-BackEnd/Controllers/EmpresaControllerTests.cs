@@ -2,6 +2,7 @@
 using Castle.Core.Logging;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Projeto_API_BackEnd_Estacionamento.Estacionamento.API.Controllers;
@@ -30,14 +31,15 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         /// Act
         var result = await sut.GetEmpresasAll();
 
         /// Assert
-        var okResult = result.Result as OkObjectResult; // Extraindo o OkObjectResult
+        var okResult = result as OkObjectResult; // Extraindo o OkObjectResult
         Assert.NotNull(okResult);                      // Certifique-se de que não é nulo
         Assert.Equal(200, okResult.StatusCode);        // Verifique se o código de status é 200
     }
@@ -50,14 +52,15 @@ public class EmpresaControllerTests
         empresaService.Setup(_ => _.GetAllEmpresasService()).ReturnsAsync((List<EmpresaDTO>)null);
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         /// Act
         var result = await sut.GetEmpresasAll();
 
         /// Assert
-        Assert.IsType<NotFoundResult>(result.Result); // Verifique se o resultado é do tipo NotFoundResult
+        Assert.IsType<NotFoundResult>(result);
     }
 
     [Fact]
@@ -70,8 +73,9 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         // Act
         var result = await sut.GetEmpresaId(1);
@@ -92,8 +96,9 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         // Act
         var result = await sut.GetEmpresaId(1);
@@ -125,12 +130,13 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
         // Configure o mapper para retornar newEmpresaMock quando chamado
         mapper.Setup(m => m.Map<EmpresaDTO>(It.IsAny<Empresa>()))
               .Returns(newEmpresaMock);
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         // Act
         var result = await sut.PostEmpresa(newEmpresaMock);
@@ -165,8 +171,9 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         // Act
         var result = await sut.PostEmpresa(newEmpresaMock);
@@ -211,8 +218,9 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         // Act
         var result = await sut.PutEmpresa(5, updateEmpresaMock);
@@ -250,8 +258,9 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         // Act
         var result = await sut.PutEmpresa(1, updateEmpresaMock);
@@ -284,8 +293,9 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         // Act
         var result = await sut.PutEmpresa(3, updateEmpresaMock);
@@ -323,8 +333,9 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         // Act
         var result = await sut.DeleteEmpresa(5);
@@ -356,8 +367,9 @@ public class EmpresaControllerTests
 
         var logger = new Mock<ILogger<EmpresasController>>();
         var mapper = new Mock<IMapper>();
+        var hybridCache = new Mock<HybridCache>();
 
-        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object);
+        var sut = new EmpresasController(empresaService.Object, logger.Object, mapper.Object, hybridCache.Object);
 
         // Act
         var result = await sut.DeleteEmpresa(3);
