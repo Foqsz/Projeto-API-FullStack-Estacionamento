@@ -14,9 +14,8 @@ public class Empresa
     [MaxLength(100, ErrorMessage = "O nome pode ter no máximo 100 caracteres.")]
     public string Nome { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "O CNPJ é obrigatório.")]
-    [RegularExpression(@"^\d{14}$", ErrorMessage = "CNPJ inválido. Deve conter 14 números.")]
-    public string CNPJ { get; set; } = string.Empty;
+    [Required(ErrorMessage = "O CNPJ é obrigatório.")] 
+    public int CNPJ { get; set; }  
 
     [Required(ErrorMessage = "O Endereço é obrigatório.")]
     [MaxLength(200, ErrorMessage = "O endereço pode ter no máximo 200 caracteres.")]
@@ -27,12 +26,10 @@ public class Empresa
     [MaxLength(15, ErrorMessage = "O telefone pode ter no máximo 15 caracteres.")]
     public string Telefone { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Informar a quantidade de vagas para motos é obrigatório.")]
-    [Range(1, int.MaxValue, ErrorMessage = "A quantidade de vagas para motos deve ser maior que 0.")]
+    [Required(ErrorMessage = "Informar a quantidade de vagas para motos é obrigatório.")] 
     public int qVagasMotos { get; set; }
 
-    [Required(ErrorMessage = "Informar a quantidade de vagas para carros é obrigatório.")]
-    [Range(1, int.MaxValue, ErrorMessage = "A quantidade de vagas para carros deve ser maior que 0.")]
+    [Required(ErrorMessage = "Informar a quantidade de vagas para carros é obrigatório.")] 
     public int qVagasCarros { get; set; }
 }
 
