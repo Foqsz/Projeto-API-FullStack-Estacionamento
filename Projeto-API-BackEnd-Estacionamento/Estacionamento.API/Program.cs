@@ -124,8 +124,8 @@ builder.Services.AddHybridCache(options =>
     options.MaximumKeyLength = 1024;
     options.DefaultEntryOptions = new HybridCacheEntryOptions
     {
-        Expiration = TimeSpan.FromSeconds(20),
-        LocalCacheExpiration = TimeSpan.FromSeconds(20),
+        Expiration = TimeSpan.FromSeconds(30),
+        LocalCacheExpiration = TimeSpan.FromSeconds(30),
     };
 });
 #pragma warning restore EXTEXP0018
