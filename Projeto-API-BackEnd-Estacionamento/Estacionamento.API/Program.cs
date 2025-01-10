@@ -134,9 +134,11 @@ builder.Services.AddHybridCache(options =>
 builder.Services.AddTransient<TokenService>();
 
 // Configuração do AutoMapper
-builder.Services.AddAutoMapper(typeof(EmpresaDTOMappingProfile));
-builder.Services.AddAutoMapper(typeof(VeiculosDTOMappingProfile));
-builder.Services.AddAutoMapper(typeof(MovimentacaoEstacionamentoDTOMappingProfile));
+//builder.Services.AddAutoMapper(typeof(EmpresaDTOMappingProfile));
+//builder.Services.AddAutoMapper(typeof(VeiculosDTOMappingProfile));
+//builder.Services.AddAutoMapper(typeof(MovimentacaoEstacionamentoDTOMappingProfile));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
