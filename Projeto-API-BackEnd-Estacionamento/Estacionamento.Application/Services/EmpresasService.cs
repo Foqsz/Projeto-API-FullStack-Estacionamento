@@ -42,7 +42,6 @@ public class EmpresasService : IEmpresasService
 
     public async Task<EmpresaDTO> CreateEmpresaService(EmpresaDTO empresa)
     {
-        var empresaMapper = _mapper.Map<EmpresaDTO, Empresa>(empresa);
 
         if (empresa == null)
         {
@@ -50,6 +49,8 @@ public class EmpresasService : IEmpresasService
             throw new ArgumentException("Não foi possível criar essa empresa.");
         }
 
+        var empresaMapper = _mapper.Map<EmpresaDTO, Empresa>(empresa);
+         
         var createEmpresa = await _empresasRepository.CreateEmpresa(empresaMapper);
 
         return _mapper.Map<Empresa, EmpresaDTO>(createEmpresa);
@@ -75,10 +76,6 @@ public class EmpresasService : IEmpresasService
     {
         var deleteEmpresa = await _empresasRepository.DeleteEmpresa(id);
 
-        if (deleteEmpresa == true)
-        {
-            return true;
-        }
-        return false;
+        return deleteEmpresa == true;
     }
 }
