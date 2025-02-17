@@ -53,6 +53,7 @@ public class EmpresasService : IEmpresasService
          
         var createEmpresa = await _empresasRepository.CreateEmpresa(empresaMapper);
 
+        _logger.LogInformation("CREATE EMPRESA: Empresa criada com sucesso.");
         return _mapper.Map<Empresa, EmpresaDTO>(createEmpresa);
 
     }
@@ -69,6 +70,7 @@ public class EmpresasService : IEmpresasService
 
         var updateEmpresa = await _empresasRepository.UpdateEmpresa(id, empresaMapper);
 
+        _logger.LogInformation("UPDATE EMPRESA: Empresa atualizada com sucesso.");
         return _mapper.Map<Empresa, EmpresaDTO>(updateEmpresa);
     }
 
